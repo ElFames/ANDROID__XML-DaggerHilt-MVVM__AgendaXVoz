@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">AgendaXVoz</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="red_circle">🔴</string>
+    <string name="cuadrado">⬛</string>
+    <string name="green_circle">🟢</string>
+    <string name="orange_circle">🟡</string>
+    <string name="repeat_symbol">↺</string>
+    <string name="play_button">▶</string>
+</resources>

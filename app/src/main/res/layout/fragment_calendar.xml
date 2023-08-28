@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.views.CalendarFragment">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="30sp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:fontFamily="cursive"
+        android:paddingVertical="7dp"
+        android:paddingHorizontal="20dp"
+        android:text="Calendario" />
+
+    <CalendarView
+        android:id="@+id/calendarView"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:theme="@style/Widget.Material3.MaterialCalendar" />
+
+    <TextView
+        android:id="@+id/instructions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/calendarView"
+        android:textSize="14sp"
+        android:textColor="@color/grey"
+        android:fontFamily="serif"
+        android:textStyle="bold"
+        android:layout_marginTop="5dp"
+        android:paddingVertical="7dp"
+        android:paddingHorizontal="30dp"
+        android:text="Selecciona un dia para ver las tareas.\n\nPuedes seleccionar un dia del pasado también." />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

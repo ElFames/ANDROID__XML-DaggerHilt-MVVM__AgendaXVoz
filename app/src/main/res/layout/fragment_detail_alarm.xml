@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.views.alarmViews.DetailAlarmFragment">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="30sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:fontFamily="cursive"
+        android:paddingVertical="7dp"
+        android:paddingHorizontal="20dp"
+        android:text="Detalles" />
+
+
+    <TextView
+        android:id="@+id/etiqueta_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="25dp"
+        android:fontFamily="serif"
+        android:paddingVertical="2dp"
+        android:paddingHorizontal="20dp"
+        android:text="Etiqueta" />
+    <TextView
+        android:id="@+id/etiqueta"
+        app:layout_constraintTop_toTopOf="@id/etiqueta_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/etiqueta_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:fontFamily="serif"
+        android:paddingVertical="2dp"
+        android:paddingHorizontal="10dp"
+        android:layout_marginEnd="20dp"
+        tools:text="Titulo descriptivo" />
+
+    <TextView
+        android:id="@+id/date_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etiqueta"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="19dp"
+        android:fontFamily="serif"
+        android:paddingVertical="2dp"
+        android:paddingHorizontal="20dp"
+        android:text="Fecha" />
+
+    <TextView
+        android:id="@+id/date"
+        app:layout_constraintTop_toTopOf="@id/date_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/date_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="22 / 09 / 2023"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:fontFamily="serif"
+        android:paddingVertical="2dp"
+        android:paddingHorizontal="10dp"
+        android:layout_marginEnd="20dp" />
+
+    <TextView
+        android:id="@+id/time_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/date"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="19dp"
+        android:fontFamily="serif"
+        android:paddingVertical="2dp"
+        android:paddingHorizontal="20dp"
+        android:text="Hora" />
+
+    <TextView
+        android:id="@+id/time"
+        app:layout_constraintTop_toTopOf="@id/time_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/time_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="17 : 45 h"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:fontFamily="serif"
+        android:paddingVertical="2dp"
+        android:paddingHorizontal="10dp"
+        android:layout_marginEnd="20dp" />
+
+    <TextView
+        android:id="@+id/repeat_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/time"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="19dp"
+        android:fontFamily="serif"
+        android:paddingVertical="2dp"
+        android:paddingHorizontal="20dp"
+        android:text="Repetición los" />
+
+    <TextView
+        android:id="@+id/isRepeating"
+        app:layout_constraintTop_toTopOf="@id/repeat_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/repeat_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Miercoles"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:fontFamily="serif"
+        android:paddingVertical="2dp"
+        android:paddingHorizontal="10dp"
+        android:layout_marginEnd="20dp" />
+
+    <TextView
+        android:id="@+id/audio_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/isRepeating"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:layout_marginTop="25dp"
+        android:fontFamily="serif"
+        android:paddingVertical="2dp"
+        android:paddingHorizontal="20dp"
+        android:text="Reproducir audio" />
+    <TextView
+        android:id="@+id/playButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/audio_label"
+        android:layout_marginEnd="44dp"
+        android:textColor="@color/black"
+        android:paddingVertical="0dp"
+        android:paddingHorizontal="8dp"
+        android:textSize="28dp"
+        android:text="@string/play_button" />
+
+    <TextView
+        android:id="@+id/playButton_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/playButton"
+        app:layout_constraintStart_toStartOf="@id/playButton"
+        app:layout_constraintEnd_toEndOf="@id/playButton"
+        android:textColor="#535353"
+        android:text="Reproducir" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
