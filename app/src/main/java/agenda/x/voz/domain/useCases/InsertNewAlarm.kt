@@ -8,7 +8,7 @@ import javax.inject.Inject
 class InsertNewAlarm @Inject constructor(
     private val repository: AlarmRepository
 ) {
-    operator fun invoke(alarmData: MutableMap<String, Any>): Alarm? {
+    suspend operator fun invoke(alarmData: MutableMap<String, Any>): Alarm? {
         return repository.insertNewAlarm(alarmData)?.toDomain()
     }
 }

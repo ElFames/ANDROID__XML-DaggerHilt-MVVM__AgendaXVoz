@@ -23,4 +23,7 @@ interface AlarmDao {
 
     @Query("SELECT * FROM alarms WHERE id = :id")
     suspend fun getAlarmById(id: Long): AlarmEntity?
+
+    @Query("DELETE FROM alarms WHERE id = :id")
+    suspend fun deleteAlarmById(id: Long)
 }

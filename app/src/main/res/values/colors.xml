@@ -13,4 +13,5 @@
     <color name="background_button">#A9BEBCFF</color>
     <color name="green">#009602</color>
     <color name="orange">#FF9800</color>
+    <color name="title">#9A96FF</color>
 </resources>

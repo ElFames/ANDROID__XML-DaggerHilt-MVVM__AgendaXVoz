@@ -75,6 +75,10 @@
             android:id="@+id/action_tomorrowAlarmsFragment_to_detailAlarmFragment"
             app:destination="@id/detailAlarmFragment"
             app:enterAnim="@anim/nav_default_enter_anim" />
+        <action
+            android:id="@+id/action_tomorrowAlarmsFragment_to_newAlarmFragment"
+            app:destination="@id/newAlarmFragment"
+            app:enterAnim="@anim/nav_default_enter_anim" />
     </fragment>
 
     <fragment

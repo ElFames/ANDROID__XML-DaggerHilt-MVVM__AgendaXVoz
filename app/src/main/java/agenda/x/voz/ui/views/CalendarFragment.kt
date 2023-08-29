@@ -7,6 +7,7 @@ import android.view.View
 import agenda.x.voz.R
 import agenda.x.voz.databinding.FragmentCalendarBinding
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -15,7 +16,7 @@ import java.util.*
 class CalendarFragment : Fragment() {
     private lateinit var binding: FragmentCalendarBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentCalendarBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -23,6 +24,14 @@ class CalendarFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setCurrentTime()
         onDaySelected()
+        onClickViewAllAlarms()
+    }
+
+    private fun onClickViewAllAlarms() {
+        binding.viewHistoryButton.setOnClickListener {
+            Toast.makeText(requireContext(),"Proximamente disponible!",Toast.LENGTH_SHORT).show()
+            binding.viewHistoryButton.isEnabled = false
+        }
     }
 
     private fun onDaySelected() {

@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:textSize="28sp"
-        android:textColor="@color/black"
+        android:textColor="@color/title"
         android:textStyle="bold"
         android:fontFamily="cursive"
         android:layout_marginTop="10dp"

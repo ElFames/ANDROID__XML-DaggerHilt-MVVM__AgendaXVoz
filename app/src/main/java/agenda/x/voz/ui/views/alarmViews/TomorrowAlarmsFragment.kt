@@ -39,6 +39,7 @@ class TomorrowAlarmsFragment : Fragment(), OnClickAlarmListener {
         super.onViewCreated(view, savedInstanceState)
         tomorrowAlarmsViewModel.getTomorrowAlarms()
         observerAlarmChange()
+        onClickNewAlarmButton()
         binding.todayTitle.setOnClickListener {
             findNavController().navigate(R.id.action_tomorrowAlarmsFragment_to_todayAlarmsFragment)
         }
@@ -57,6 +58,12 @@ class TomorrowAlarmsFragment : Fragment(), OnClickAlarmListener {
         alarmAdapter = AlarmAdapter(recyclerAlarmList, requireActivity(), this, resources)
         linearLayoutManager = LinearLayoutManager(context)
         startRecyclerView()
+    }
+
+    private fun onClickNewAlarmButton() {
+        binding.newAlarmButton.setOnClickListener {
+            findNavController().navigate(R.id.action_tomorrowAlarmsFragment_to_newAlarmFragment)
+        }
     }
 
     private fun startRecyclerView() {

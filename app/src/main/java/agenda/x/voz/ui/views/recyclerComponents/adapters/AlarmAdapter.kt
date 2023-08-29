@@ -33,6 +33,7 @@ class AlarmAdapter(private var alarms: MutableList<Alarm>?,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.alarm_layout, parent, false)
+        alarms = alarms?.sortedWith(compareBy({ it.hour }, { it.minute }))!!.toMutableList()
         return ViewHolder(view)
     }
 
@@ -47,8 +48,8 @@ class AlarmAdapter(private var alarms: MutableList<Alarm>?,
                 if (alarm.repeat) binding.completeAlarmButton.visibility = View.GONE
             }
             binding.name.text = alarm.name
-            binding.hours.text = alarm.hour.toString()
-            binding.minutes.text = alarm.minute.toString()
+            binding.hours.text = String.format("%02d", alarm.hour)
+            binding.minutes.text = String.format("%02d", alarm.minute)
             setAlarmState(binding, alarm)
             setListener(alarm)
             binding.completeAlarmButton.setOnClickListener {
@@ -57,7 +58,7 @@ class AlarmAdapter(private var alarms: MutableList<Alarm>?,
         }
     }
 
-    private fun setAlarmState(binding: AlarmLayoutBinding, alarm: Alarm) {
+    fun setAlarmState(binding: AlarmLayoutBinding, alarm: Alarm) {
         if (alarm.repeat) {
             binding.state.text = resources.getString(R.string.repeat_symbol)
             binding.state.textSize = 24f

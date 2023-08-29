@@ -2,9 +2,6 @@ package agenda.x.voz.ui.views.alarmViews
 
 import agenda.x.voz.R
 import agenda.x.voz.core.notifications.AlarmNotification
-import agenda.x.voz.core.notifications.AlarmNotification.Companion.message
-import agenda.x.voz.core.notifications.AlarmNotification.Companion.notificationId
-import agenda.x.voz.core.notifications.AlarmNotification.Companion.title
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -115,29 +112,52 @@ class NewAlarmFragment : Fragment() {
     }
 
     private fun scheduleNotification(alarmToNotify: Alarm) {
-        /*notificationId = alarmToNotify.id.toInt()
-        title = "Falta 1 HORA para..."
-        message = alarmToNotify.name*/
-        val intent = Intent(requireActivity().applicationContext, AlarmNotification::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(
-            requireActivity().applicationContext,
-            1,
-            intent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-        )
-        val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val dateInMillis = getAlarmDateInMillis()
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, Calendar.getInstance().timeInMillis + dateInMillis, pendingIntent)
+        notification1HourBefore(alarmToNotify)
+        notificationInTimePassed(alarmToNotify)
     }
 
-    private fun getAlarmDateInMillis(): Long {
+    private fun notification1HourBefore(alarmToNotify: Alarm) {
+        val notificationId = "${alarmToNotify.id.toInt()}1111111".toInt()
+        val intent = Intent(requireActivity().applicationContext, AlarmNotification::class.java)
+        intent.putExtra("title", "Falta 1 HORA para...")
+        intent.putExtra("message", alarmToNotify.name)
+        intent.putExtra("notificationId", notificationId)
+        val pendingIntent = PendingIntent.getBroadcast(
+            requireActivity().applicationContext,
+            notificationId,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val dateTime = getAlarmDate()
+        dateTime.set(Calendar.HOUR_OF_DAY, binding.timePicker.hour - 1)
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, dateTime.timeInMillis + 1000, pendingIntent)
+    }
+
+    private fun notificationInTimePassed(alarmToNotify: Alarm) {
+        val intent = Intent(requireActivity().applicationContext, AlarmNotification::class.java)
+        intent.putExtra("title", "A llegado la hora de...")
+        intent.putExtra("message", alarmToNotify.name)
+        intent.putExtra("notificationId", alarmToNotify.id.toInt())
+        val pendingIntent = PendingIntent.getBroadcast(
+            requireActivity().applicationContext,
+            alarmToNotify.id.toInt(),
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val dateTime = getAlarmDate()
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, dateTime.timeInMillis + 1000, pendingIntent)
+    }
+
+    private fun getAlarmDate(): Calendar {
         val calendar = Calendar.getInstance()
-        calendar.set(Calendar.YEAR, binding.dayPicker.value)
-        calendar.set(Calendar.MONTH, binding.monthPicker.value)
-        calendar.set(Calendar.DAY_OF_MONTH, binding.yearPicker.value)
-        calendar.set(Calendar.HOUR, binding.timePicker.hour)
+        calendar.set(Calendar.YEAR, binding.yearPicker.value)
+        calendar.set(Calendar.MONTH, binding.monthPicker.value - 1)
+        calendar.set(Calendar.DAY_OF_MONTH, binding.dayPicker.value)
+        calendar.set(Calendar.HOUR_OF_DAY, binding.timePicker.hour)
         calendar.set(Calendar.MINUTE, binding.timePicker.minute)
-        return calendar.timeInMillis - Calendar.getInstance().timeInMillis
+        return calendar
     }
 
     private fun createNotificationChannel() {
@@ -156,22 +176,26 @@ class NewAlarmFragment : Fragment() {
     }
     private fun onClickSaveButton() {
         binding.saveButton.setOnClickListener {
-            val alarmMap: MutableMap<String,Any> = mutableMapOf()
-            alarmMap["name"] = binding.etiquetaEditText.text.toString()
-            alarmMap["day"] = binding.dayPicker.value
-            alarmMap["month"] = binding.monthPicker.value
-            alarmMap["year"] = binding.yearPicker.value
-            alarmMap["hour"] = binding.timePicker.hour
-            alarmMap["minute"] = binding.timePicker.minute
-            alarmMap["repeat"] = binding.repeatSwitch.isChecked
-            alarmMap["complete"] = false
-            alarmMap["audioFilePath"] = audioFilePath?.path ?: "prueba"
-            newAlarmViewModel.saveAlarm(alarmMap)
-            Toast.makeText(requireContext(),"Tarea añadida con éxito",Toast.LENGTH_SHORT).show()
-            newAlarmViewModel.savedAlarm.observe(this) {
-                scheduleNotification(it!!)
+            if (binding.etiquetaEditText.text.toString().isEmpty()) {
+                Toast.makeText(requireContext(),"Debes poner una etiqueta o pequeña descripción!",Toast.LENGTH_SHORT).show()
+            } else {
+                val alarmMap: MutableMap<String,Any> = mutableMapOf()
+                alarmMap["name"] = binding.etiquetaEditText.text.toString()
+                alarmMap["day"] = binding.dayPicker.value
+                alarmMap["month"] = binding.monthPicker.value
+                alarmMap["year"] = binding.yearPicker.value
+                alarmMap["hour"] = binding.timePicker.hour
+                alarmMap["minute"] = binding.timePicker.minute
+                alarmMap["repeat"] = binding.repeatSwitch.isChecked
+                alarmMap["complete"] = false
+                alarmMap["audioFilePath"] = audioFilePath?.path ?: "prueba"
+                newAlarmViewModel.saveAlarm(alarmMap)
+                Toast.makeText(requireContext(),"Tarea añadida con éxito",Toast.LENGTH_SHORT).show()
+                newAlarmViewModel.savedAlarm.observe(this) {
+                    scheduleNotification(it!!)
+                    findNavController().navigate(R.id.action_newAlarmsFragment_to_todayAlarmsFragment)
+                }
             }
-            findNavController().navigate(R.id.action_newAlarmsFragment_to_todayAlarmsFragment)
         }
     }
 

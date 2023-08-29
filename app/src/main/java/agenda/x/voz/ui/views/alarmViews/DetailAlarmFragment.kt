@@ -8,17 +8,22 @@ import android.view.ViewGroup
 import agenda.x.voz.R
 import agenda.x.voz.data.model.AlarmModel
 import agenda.x.voz.databinding.FragmentDetailAlarmBinding
+import agenda.x.voz.domain.model.Alarm
 import agenda.x.voz.domain.model.toDomain
 import agenda.x.voz.ui.viewModels.DetailAlarmViewModel
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.os.Handler
 import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.io.IOException
@@ -46,32 +51,55 @@ class DetailAlarmFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val alarm = arguments?.getParcelable<AlarmModel>("alarm")
         detailAlarmViewModel.setAlarm(alarm!!.toDomain())
+
         detailAlarmViewModel.alarm.observe(this) {
             audioFilePath = Path(it.audioFilePath).toFile()
             binding.etiqueta.text = it.name
-            val time = "${alarm.hour} : ${alarm.minute} h"
-            binding.time.text = time
+            setTime(it)
             onClickPlayButton()
+            onClickDeleteButton()
             if (it.repeat) {
-                binding.dateLabel.visibility = View.GONE
-                binding.date.visibility = View.GONE
-                val calendar = currentDate
-                calendar.set(Calendar.DAY_OF_MONTH, it.day!!)
-                calendar.set(Calendar.MONTH, it.month!!)
-                calendar.set(Calendar.YEAR, it.year!!)
-                val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
-                val dayOfWeekString = dayOfWeekToString(dayOfWeek)
-                binding.isRepeating.text = dayOfWeekString
+                hideDate()
+                showDayIsRepeating(it)
             } else {
-                binding.isRepeating.visibility = View.GONE
-                binding.repeatLabel.visibility = View.GONE
-                val date = "${alarm.day} / ${alarm.month} / ${alarm.year}"
-                binding.date.text = date
+                hideRepeatLabels()
+                showDate(it)
             }
         }
-        //onClickBackButton()
+    }
+
+    private fun showDate(alarm: Alarm) {
+        val date = "${alarm.day} / ${alarm.month} / ${alarm.year}"
+        binding.date.text = date
+    }
+
+    private fun hideRepeatLabels() {
+        binding.isRepeating.visibility = View.GONE
+        binding.repeatLabel.visibility = View.GONE
+    }
+
+    private fun showDayIsRepeating(alarm: Alarm) {
+        currentDate.set(Calendar.DAY_OF_MONTH, alarm.day!!)
+        currentDate.set(Calendar.MONTH, alarm.month!!)
+        currentDate.set(Calendar.YEAR, alarm.year!!)
+        val dayOfWeek = currentDate.get(Calendar.DAY_OF_WEEK)
+        val dayOfWeekString = dayOfWeekToString(dayOfWeek)
+        binding.isRepeating.text = dayOfWeekString
+    }
+
+    private fun hideDate() {
+        binding.dateLabel.visibility = View.GONE
+        binding.date.visibility = View.GONE
+    }
+
+    private fun setTime(alarm: Alarm) {
+        val hour = String.format("%02d", alarm.hour)
+        val minute = String.format("%02d", alarm.minute)
+        val time = "$hour : $minute h"
+        binding.time.text = time
     }
 
     private fun dayOfWeekToString(dayOfWeek: Int): String {
@@ -96,18 +124,27 @@ class DetailAlarmFragment : Fragment() {
 
     private fun onPlay(start: Boolean) = if (start) {
         if (audioFilePath.exists()) {
-            binding.playButtonLabel.text = "Reproduciendo..."
-            binding.playButton.textSize = 18f
-            binding.playButton.text = resources.getString(R.string.cuadrado)
+            binding.playButton.setImageResource(R.drawable.ic_stop_button)
             startPlaying()
+            player?.setOnPreparedListener {
+                binding.progressBar.max = it.duration
+                val updateHandler = Handler()
+                val updateRunnable = object : Runnable {
+                    override fun run() {
+                        val currentPosition = player?.currentPosition
+                        binding.progressBar.progress = currentPosition ?: 0
+                        updateHandler.postDelayed(this, 100) // Actualizar cada 100ms
+                    }
+                }
+                updateHandler.postDelayed(updateRunnable, 0)
+            }
         } else {
             Toast.makeText(requireContext(),"No hay audio. Para grabar uno ves a editar tarea",Toast.LENGTH_LONG).show()
         }
     } else {
-        binding.playButtonLabel.text = "Reproducir"
-        binding.playButton.textSize = 28f
-        binding.playButton.text = resources.getString(R.string.play_button)
+        binding.playButton.setImageResource(R.drawable.ic_play_button)
         stopPlaying()
+        binding.progressBar.progress = 0
     }
 
     private fun startPlaying() {
@@ -129,6 +166,25 @@ class DetailAlarmFragment : Fragment() {
     private fun stopPlaying() {
         player?.release()
         player = null
+    }
+
+    private fun onClickDeleteButton() {
+        binding.deleteButton.setOnClickListener {
+            AlertDialog.Builder(requireContext())
+                .setTitle("Eliminar Alarma")
+                .setMessage("¿Estás seguro de que quieres eliminar esta alarma?")
+                .setPositiveButton("Eliminar") { dialogInterface: DialogInterface, _: Int ->
+                    detailAlarmViewModel.deleteCurrentAlarm()
+                    Toast.makeText(requireContext(),"Tarea eliminada!",Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(R.id.action_detailAlarmFragment_to_todayAlarmsFragment)
+                    dialogInterface.dismiss()
+                }
+                .setNegativeButton("Cancelar") { dialogInterface: DialogInterface, _: Int ->
+                    dialogInterface.dismiss()
+                }
+                .create()
+                .show()
+        }
     }
 
     override fun onStop() {

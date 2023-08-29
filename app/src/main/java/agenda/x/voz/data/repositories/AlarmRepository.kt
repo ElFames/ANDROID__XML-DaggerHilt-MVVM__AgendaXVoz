@@ -22,8 +22,7 @@ class AlarmRepository @Inject constructor(
         }
     }
 
-    fun insertNewAlarm(alarmData: MutableMap<String, Any>): AlarmEntity? {
-        var alarm: AlarmEntity? = null
+    suspend fun insertNewAlarm(alarmData: MutableMap<String, Any>): AlarmEntity? {
         val insertAlarm = CoroutineScope(Dispatchers.IO).async {
             val alarmEntity = AlarmEntity(
                 alarmData["name"]!!.toString(),
@@ -38,16 +37,16 @@ class AlarmRepository @Inject constructor(
             )
             dao.insert(alarmEntity)
         }
-        CoroutineScope(Dispatchers.IO).launch {
+        val alarm = CoroutineScope(Dispatchers.IO).async {
             insertAlarm.await()
-            alarm = dao.getAlarmByDate(
+            dao.getAlarmByDate(
                 alarmData["day"]!!.toString().toInt(),
                 alarmData["month"]!!.toString().toInt(),
                 alarmData["year"]!!.toString().toInt(),
                 alarmData["hour"]!!.toString().toInt(),
                 alarmData["minute"]!!.toString().toInt())
         }
-        return alarm
+        return alarm.await()
     }
 
     fun getAlarmsFromDay(day: Int, month: Int, year: Int): MutableList<Alarm> {
@@ -156,6 +155,12 @@ class AlarmRepository @Inject constructor(
     fun updateAlarm(alarm: Alarm) {
         CoroutineScope(Dispatchers.IO).launch {
             dao.insert(alarm.toDatabase())
+        }
+    }
+
+    fun deleteAlarm(alarm: Alarm) {
+        CoroutineScope(Dispatchers.IO).launch {
+            dao.deleteAlarmById(alarm.id)
         }
     }
 
