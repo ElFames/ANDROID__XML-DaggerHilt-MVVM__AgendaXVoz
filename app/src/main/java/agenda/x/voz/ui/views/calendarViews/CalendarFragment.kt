@@ -1,4 +1,4 @@
-package agenda.x.voz.ui.views
+package agenda.x.voz.ui.views.calendarViews
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,15 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import agenda.x.voz.R
 import agenda.x.voz.databinding.FragmentCalendarBinding
+import agenda.x.voz.ui.viewModels.CalendarViewModel
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.view.forEach
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.datepicker.DayViewDecorator
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 @AndroidEntryPoint
 class CalendarFragment : Fragment() {
     private lateinit var binding: FragmentCalendarBinding
+    private val calendarViewModel: CalendarViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentCalendarBinding.inflate(layoutInflater)
@@ -23,14 +27,20 @@ class CalendarFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setCurrentTime()
+        calendarViewModel.getFutureAlarms()
+        observerAlarmsChange()
         onDaySelected()
         onClickViewAllAlarms()
     }
 
     private fun onClickViewAllAlarms() {
         binding.viewHistoryButton.setOnClickListener {
-            Toast.makeText(requireContext(),"Proximamente disponible!",Toast.LENGTH_SHORT).show()
-            binding.viewHistoryButton.isEnabled = false
+            findNavController().navigate(R.id.action_calendarFragment_to_allAlarmsFragment)
+        }
+    }
+
+    private fun observerAlarmsChange() {
+        calendarViewModel.alarms.observe(this) { alarms ->
         }
     }
 

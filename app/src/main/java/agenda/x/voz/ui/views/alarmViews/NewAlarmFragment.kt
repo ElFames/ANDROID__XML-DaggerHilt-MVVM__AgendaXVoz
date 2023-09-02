@@ -28,8 +28,10 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.awaitAll
 import java.io.File
 import java.io.IOException
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.io.path.deleteIfExists
 
@@ -47,6 +49,9 @@ class NewAlarmFragment : Fragment() {
     private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
     private var selectedHour = 0
     private var selectedMinute = 0
+    private var selectedYear = 0
+    private var selectedMonth = 0
+    private var selectedDay = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentNewAlarmBinding.inflate(layoutInflater)
@@ -64,6 +69,11 @@ class NewAlarmFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         externalFilesDir = requireContext().getExternalFilesDir(null)
+
+        selectedYear = arguments?.getInt("selected_year", 0) ?: 0
+        selectedMonth = arguments?.getInt("selected_month", 0) ?: 0
+        selectedDay = arguments?.getInt("selected_day", 0) ?: 0
+
         loadDatePicker()
         onTimeChange()
         onClickSaveButton()
@@ -79,18 +89,17 @@ class NewAlarmFragment : Fragment() {
     }
 
     private fun loadDatePicker() {
-        val currentDate = Calendar.getInstance()
         binding.dayPicker.minValue = 1
         binding.dayPicker.maxValue = 31
-        binding.dayPicker.value = currentDate.get(Calendar.DAY_OF_MONTH)
+        binding.dayPicker.value = selectedDay
 
         binding.monthPicker.minValue = 1
         binding.monthPicker.maxValue = 12
-        binding.monthPicker.value = currentDate.get(Calendar.MONTH) + 1
+        binding.monthPicker.value = selectedMonth
 
         binding.yearPicker.minValue = 2023
         binding.yearPicker.maxValue = 2100
-        binding.yearPicker.value = currentDate.get(Calendar.YEAR)
+        binding.yearPicker.value = selectedYear
     }
 
     private fun onClickPlayButton() {
@@ -112,8 +121,10 @@ class NewAlarmFragment : Fragment() {
     }
 
     private fun scheduleNotification(alarmToNotify: Alarm) {
-        notification1HourBefore(alarmToNotify)
-        notificationInTimePassed(alarmToNotify)
+        if (!isDateTimePassed(alarmToNotify, -1))
+            notification1HourBefore(alarmToNotify)
+        if (!isDateTimePassed(alarmToNotify, 0))
+            notificationInTimePassed(alarmToNotify)
     }
 
     private fun notification1HourBefore(alarmToNotify: Alarm) {
@@ -126,7 +137,7 @@ class NewAlarmFragment : Fragment() {
             requireActivity().applicationContext,
             notificationId,
             intent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
         val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val dateTime = getAlarmDate()
@@ -143,7 +154,7 @@ class NewAlarmFragment : Fragment() {
             requireActivity().applicationContext,
             alarmToNotify.id.toInt(),
             intent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
         val alarmManager = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val dateTime = getAlarmDate()
@@ -158,6 +169,16 @@ class NewAlarmFragment : Fragment() {
         calendar.set(Calendar.HOUR_OF_DAY, binding.timePicker.hour)
         calendar.set(Calendar.MINUTE, binding.timePicker.minute)
         return calendar
+    }
+
+    private fun isDateTimePassed(alarm: Alarm, amount: Int): Boolean {
+        val date = "${alarm.day}/${alarm.month}/${alarm.year}"
+        val time = "${alarm.hour + (amount)}:${alarm.minute}"
+        val dateTimePattern = "dd/MM/yyyy HH:mm"
+        val currentDate = Calendar.getInstance().time
+        val dateFormat = SimpleDateFormat(dateTimePattern, Locale.getDefault())
+        val dateTime = dateFormat.parse("$date $time") ?: return false
+        return dateTime.before(currentDate)
     }
 
     private fun createNotificationChannel() {

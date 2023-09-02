@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.views.CalendarFragment">
+    tools:context=".ui.views.calendarViews.CalendarFragment">
 
     <TextView
         android:id="@+id/title"
@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:textSize="30sp"
         android:layout_marginTop="10dp"
-        android:textColor="@color/title"
+        android:textColor="@color/dark_blue"
         android:textStyle="bold"
         android:fontFamily="cursive"
         android:paddingVertical="7dp"
@@ -49,11 +49,11 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/title"
         android:textSize="14sp"
-        android:textColor="@color/black"
+        android:textColor="#8F8F8F"
         android:fontFamily="serif"
         android:layout_marginTop="8dp"
         android:paddingVertical="7dp"
-        android:paddingHorizontal="30dp"
-        android:text="Selecciona un dia cualquiera para ver las tareas programadas." />
+        android:paddingHorizontal="25dp"
+        android:text="Selecciona un dia para ver las tareas programadas o para programar una." />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

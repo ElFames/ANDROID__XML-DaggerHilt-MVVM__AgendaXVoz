@@ -6,6 +6,7 @@ import agenda.x.voz.data.database.entities.toDatabase
 import agenda.x.voz.domain.model.Alarm
 import agenda.x.voz.domain.model.toDomain
 import kotlinx.coroutines.*
+import okhttp3.internal.ignoreIoExceptions
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -80,13 +81,9 @@ class AlarmRepository @Inject constructor(
     }
 
     private fun checkRepeatingAlarms() {
-        var dateStr: String
-        var timeStr: String
         alarms.forEach {
             if (it.repeat) {
-                dateStr = "${it.day}/${it.month}/${it.year}"
-                timeStr = "${it.hour}:${it.minute}"
-                if (isDateTimePassed(dateStr, timeStr))
+                if (isDateTimePassed(it))
                     updateTimeFromAlarmRepeating(it.toDatabase())
             }
         }
@@ -142,13 +139,13 @@ class AlarmRepository @Inject constructor(
             dao.insert(alarm)
         }
     }
-    private fun isDateTimePassed(dateStr: String, timeStr: String): Boolean {
+    private fun isDateTimePassed(alarm: Alarm): Boolean {
+        val date = "${alarm.day}/${alarm.month}/${alarm.year}"
+        val time = "${alarm.hour}:${alarm.minute}"
         val dateTimePattern = "dd/MM/yyyy HH:mm"
         val currentDate = Calendar.getInstance().time
-
         val dateFormat = SimpleDateFormat(dateTimePattern, Locale.getDefault())
-        val dateTime = dateFormat.parse("$dateStr $timeStr") ?: return false
-
+        val dateTime = dateFormat.parse("$date $time") ?: return false
         return dateTime.before(currentDate)
     }
 
@@ -162,6 +159,15 @@ class AlarmRepository @Inject constructor(
         CoroutineScope(Dispatchers.IO).launch {
             dao.deleteAlarmById(alarm.id)
         }
+    }
+
+    suspend fun getFutureAlarms(): MutableList<Alarm> {
+        val allAlarms = getAllAlarms()
+        val futureAlarms = mutableListOf<Alarm>()
+        allAlarms.forEach {
+            if (!isDateTimePassed(it)) futureAlarms.add(it)
+        }
+        return futureAlarms
     }
 
     companion object {

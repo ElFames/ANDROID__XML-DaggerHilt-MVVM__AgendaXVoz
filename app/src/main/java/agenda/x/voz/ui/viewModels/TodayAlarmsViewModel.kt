@@ -15,7 +15,7 @@ class TodayAlarmsViewModel @Inject constructor(
     private val todayAlarms: GetTodayAlarms,
     private val setAlarmIsComplete: SetAlarmIsComplete
 ): ViewModel() {
-    val alarms = MutableLiveData<MutableList<Alarm>?>()
+    val alarms = MutableLiveData<MutableList<Alarm>>()
 
     fun getTodayAlarms() {
         alarms.postValue(todayAlarms())

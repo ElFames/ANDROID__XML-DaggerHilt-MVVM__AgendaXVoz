@@ -6,64 +6,73 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.views.SettingsFragment">
 
-        <TextView
-            android:id="@+id/settingsTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Configuración"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:fontFamily="cursive"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="7dp"
-            android:textColor="@color/title" />
+    <TextView
+        android:id="@+id/settingsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Configuración"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:fontFamily="cursive"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="7dp"
+        android:textColor="@color/title" />
 
-        <TextView
-            android:id="@+id/notificationSettings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Notificaciones"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/settingsTitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"
-            android:paddingHorizontal="20dp"
-            android:textColor="@color/black" />
+    <TextView
+        android:id="@+id/notificationSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Notificaciones"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/settingsTitle"
+        android:layout_marginTop="15dp"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="20dp"
+        android:textColor="@color/black" />
 
-        <!-- Add more settings options here -->
+    <TextView
+        android:id="@+id/notification_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Notificaciones activas"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/notificationSettings"
+        android:paddingVertical="7dp"
+        android:paddingHorizontal="20dp"
+        android:textColor="@color/black" />
+    <Switch
+        android:id="@+id/notification_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:checked="true"
+        app:layout_constraintTop_toTopOf="@id/notification_label"
+        app:layout_constraintBottom_toBottomOf="@id/notification_label"
+        android:layout_marginEnd="20dp"
+        android:thumbTint="@color/title"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
 
-        <TextView
-            android:id="@+id/aboutApp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Acerca de la Aplicación"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/notificationSettings"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"
-            android:paddingHorizontal="20dp"
-            android:textColor="@color/black" />
-
-        <Button
-            android:id="@+id/logoutButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cerrar Sesión"
-            app:layout_constraintTop_toBottomOf="@id/aboutApp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="24dp"
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="10dp"
-            android:background="@color/background_button"
-            android:textColor="@color/black" />
+    <TextView
+        android:id="@+id/aboutApp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Acerca de la Aplicación"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/notification_label"
+        android:layout_marginTop="10dp"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="20dp"
+        android:textColor="@color/black" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

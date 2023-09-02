@@ -35,15 +35,16 @@ class TodayAlarmsFragment : Fragment(), OnClickAlarmListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         todayAlarmsViewModel.getTodayAlarms()
-        onClickListeners()
         observerAlarmsChange()
+        onClickListeners()
     }
 
     private fun observerAlarmsChange() {
         todayAlarmsViewModel.alarms.observe(this) { alarms ->
-            if(alarms.isNullOrEmpty()){}
-            //binding.alarmsEmpty.visibility = View.VISIBLE
-            else loadRecyclerView(alarms)
+            binding.recyclerIsEmpty.visibility =
+                if (alarms.isNullOrEmpty()) View.VISIBLE
+                else View.GONE
+            loadRecyclerView(alarms)
         }
     }
 
@@ -51,22 +52,34 @@ class TodayAlarmsFragment : Fragment(), OnClickAlarmListener {
         onClickNewAlarmButton()
         onClickViewTomorrowAlarms()
     }
+
     private fun onClickViewTomorrowAlarms() {
         binding.tomorrowTitle.setOnClickListener {
             findNavController().navigate(R.id.action_todayAlarmsFragment_to_tomorrowAlarmsFragment)
         }
     }
+
     private fun onClickNewAlarmButton() {
         binding.newAlarmButton.setOnClickListener {
-            findNavController().navigate(R.id.action_todayAlarmsFragment_to_newAlarmFragment)
+            val calendar = Calendar.getInstance()
+            val selectedYear = calendar.get(Calendar.YEAR)
+            val selectedMonth = calendar.get(Calendar.MONTH) + 1
+            val selectedDay = calendar.get(Calendar.DAY_OF_MONTH)
+            val bundle = Bundle()
+            bundle.putInt("selected_year", selectedYear)
+            bundle.putInt("selected_month", selectedMonth)
+            bundle.putInt("selected_day", selectedDay)
+            findNavController().navigate(R.id.action_todayAlarmsFragment_to_newAlarmFragment, bundle)
         }
     }
+
     private fun loadRecyclerView(alarms: MutableList<Alarm>) {
         recyclerAlarmList = alarms
-        alarmAdapter = AlarmAdapter(recyclerAlarmList, requireActivity(), this, resources)
+        alarmAdapter = AlarmAdapter(recyclerAlarmList, requireActivity(), this, false)
         linearLayoutManager = LinearLayoutManager(context)
         startRecyclerView()
     }
+
     private fun startRecyclerView() {
         binding.recyclerView.apply {
             setHasFixedSize(true)

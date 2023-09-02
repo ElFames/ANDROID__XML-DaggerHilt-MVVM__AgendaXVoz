@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:textSize="30sp"
-        android:textColor="@color/black"
+        android:textColor="@color/dark_blue"
         android:textStyle="bold"
         android:layout_marginTop="10dp"
         android:fontFamily="cursive"
@@ -62,6 +62,21 @@
         android:layout_marginHorizontal="15dp"
         app:layout_constraintBottom_toTopOf="@id/recyclerView"
         android:textColor="@color/black" />
+    <TextView
+        android:id="@+id/recyclerIsEmpty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/todayTitle"
+        android:textSize="15sp"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/grey"
+        android:fontFamily="serif"
+        android:textStyle="bold"
+        android:paddingVertical="5dp"
+        android:paddingHorizontal="10dp"
+        android:text="No tienes tareas programadas" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -77,11 +92,15 @@
 
     <ImageView
         android:id="@+id/newAlarmButton"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/title"
         android:layout_marginEnd="10dp"
         android:src="@drawable/ic_add_circle" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

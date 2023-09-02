@@ -4,19 +4,20 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Fames/Desktop/AgendaXVoz/app/src/main/res/drawable-v24/rounded_background.xml" value="0.1" />
+        <entry key="..\:/Users/Fames/Desktop/AgendaXVoz/app/src/main/res/drawable/ic_launcher_background.xml" value="0.216" />
         <entry key="..\:/Users/Fames/Desktop/AgendaXVoz/app/src/main/res/drawable/progresbar_custom.xml" value="0.1645" />
         <entry key="..\:/Users/Fames/Desktop/AgendaXVoz/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/Fames/Desktop/AgendaXVoz/app/src/main/res/layout/alarm_layout.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Fames/Desktop/AgendaXVoz/app/src/main/res/layout/fragment_alarm_detail.xml" value="0.2028985507246377" />
         <entry key="..\:/Users/Fames/Desktop/AgendaXVoz/app/src/main/res/layout/fragment_alarms.xml" value="0.24010416666666667" />
         <entry key="..\:/Users/Fames/Desktop/AgendaXVoz/app/src/main/res/layout/fragment_all_alarms.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/Fames/Desktop/AgendaXVoz/app/src/main/res/layout/fragment_calendar.xml" value="0.264" />
+        <entry key="..\:/Users/Fames/Desktop/AgendaXVoz/app/src/main/res/layout/fragment_calendar.xml" value="0.34615384615384615" />
         <entry key="..\:/Users/Fames/Desktop/AgendaXVoz/app/src/main/res/layout/fragment_detail_alarm.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Fames/Desktop/AgendaXVoz/app/src/main/res/layout/fragment_edit_alarm.xml" value="0.264" />
         <entry key="..\:/Users/Fames/Desktop/AgendaXVoz/app/src/main/res/layout/fragment_new_alarm.xml" value="0.264" />
         <entry key="..\:/Users/Fames/Desktop/AgendaXVoz/app/src/main/res/layout/fragment_settings.xml" value="0.264" />
-        <entry key="..\:/Users/Fames/Desktop/AgendaXVoz/app/src/main/res/layout/fragment_today_alarms.xml" value="0.264" />
-        <entry key="..\:/Users/Fames/Desktop/AgendaXVoz/app/src/main/res/layout/fragment_tomorrow_alarms.xml" value="0.2188679245283019" />
+        <entry key="..\:/Users/Fames/Desktop/AgendaXVoz/app/src/main/res/layout/fragment_today_alarms.xml" value="0.1" />
+        <entry key="..\:/Users/Fames/Desktop/AgendaXVoz/app/src/main/res/layout/fragment_tomorrow_alarms.xml" value="0.4" />
         <entry key="..\:/Users/Fames/Desktop/AgendaXVoz/app/src/main/res/menu/menu.xml" value="0.1" />
       </map>
     </option>

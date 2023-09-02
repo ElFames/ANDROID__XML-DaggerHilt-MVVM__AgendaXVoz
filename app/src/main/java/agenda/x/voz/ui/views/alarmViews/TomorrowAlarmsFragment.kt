@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class TomorrowAlarmsFragment : Fragment(), OnClickAlarmListener {
@@ -47,22 +48,31 @@ class TomorrowAlarmsFragment : Fragment(), OnClickAlarmListener {
 
     private fun observerAlarmChange() {
         tomorrowAlarmsViewModel.alarms.observe(this) { alarms ->
-            if(alarms.isNullOrEmpty()){}
-            //binding.alarmsEmpty.visibility = View.VISIBLE
-            else loadRecyclerView(alarms)
+            binding.recyclerIsEmpty.visibility =
+                if (alarms.isNullOrEmpty()) View.VISIBLE
+                else View.GONE
+            loadRecyclerView(alarms)
         }
     }
 
     private fun loadRecyclerView(alarms: MutableList<Alarm>) {
         recyclerAlarmList = alarms
-        alarmAdapter = AlarmAdapter(recyclerAlarmList, requireActivity(), this, resources)
+        alarmAdapter = AlarmAdapter(recyclerAlarmList, requireActivity(), this, false)
         linearLayoutManager = LinearLayoutManager(context)
         startRecyclerView()
     }
 
     private fun onClickNewAlarmButton() {
         binding.newAlarmButton.setOnClickListener {
-            findNavController().navigate(R.id.action_tomorrowAlarmsFragment_to_newAlarmFragment)
+            val calendar = Calendar.getInstance()
+            val selectedYear = calendar.get(Calendar.YEAR)
+            val selectedMonth = calendar.get(Calendar.MONTH) + 1
+            val selectedDay = calendar.get(Calendar.DAY_OF_MONTH) + 1
+            val bundle = Bundle()
+            bundle.putInt("selected_year", selectedYear)
+            bundle.putInt("selected_month", selectedMonth)
+            bundle.putInt("selected_day", selectedDay)
+            findNavController().navigate(R.id.action_tomorrowAlarmsFragment_to_newAlarmFragment, bundle)
         }
     }
 

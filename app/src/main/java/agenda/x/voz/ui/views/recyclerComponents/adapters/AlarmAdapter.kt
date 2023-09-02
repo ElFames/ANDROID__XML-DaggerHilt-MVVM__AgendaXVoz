@@ -4,7 +4,6 @@ import agenda.x.voz.R
 import agenda.x.voz.ui.views.recyclerComponents.interfaces.OnClickAlarmListener
 import agenda.x.voz.databinding.AlarmLayoutBinding
 import agenda.x.voz.domain.model.Alarm
-import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,67 +15,69 @@ import java.util.*
 
 class AlarmAdapter(private var alarms: MutableList<Alarm>?,
                    private val activity: FragmentActivity,
-                   private val listener: OnClickAlarmListener,
-                   private val resources: Resources):RecyclerView.Adapter<AlarmAdapter.ViewHolder>() {
+                   private val listener: OnClickAlarmListener?,
+                   private val showDate: Boolean):RecyclerView.Adapter<AlarmAdapter.ViewHolder>() {
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val binding = AlarmLayoutBinding.bind(view)
 
         fun setListener(alarm: Alarm) {
             binding.viewAlarmButton.setOnClickListener {
-                listener.onClickViewAlarm(alarm)
+                listener?.onClickViewAlarm(alarm)
             }
             binding.editAlarmButton.setOnClickListener {
-                listener.onClickEditAlarm(alarm)
+                listener?.onClickEditAlarm(alarm)
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.alarm_layout, parent, false)
-        alarms = alarms?.sortedWith(compareBy({ it.hour }, { it.minute }))!!.toMutableList()
+        alarms = alarms?.sortedWith(compareBy<Alarm> { it.year }.thenBy { it.month }.thenBy { it.day }.thenBy { it.hour }.thenBy { it.minute })?.toMutableList()
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val alarm = alarms!![position]
         with(holder) {
-            if (isDateTimePassed(alarm)) binding.completeAlarmButton.visibility = View.GONE
             binding.root.setOnClickListener {
                 binding.viewAlarmButton.visibility = if(binding.viewAlarmButton.isVisible) View.GONE else View.VISIBLE
                 binding.editAlarmButton.visibility = if(binding.editAlarmButton.isVisible) View.GONE else View.VISIBLE
                 binding.completeAlarmButton.visibility = if(binding.completeAlarmButton.isVisible) View.GONE else View.VISIBLE
                 if (alarm.repeat) binding.completeAlarmButton.visibility = View.GONE
             }
+            val date = "${alarm.day} / ${alarm.month} / ${alarm.year}"
+            binding.date.text = date
+            binding.date.visibility = if (showDate) View.VISIBLE else View.GONE
             binding.name.text = alarm.name
             binding.hours.text = String.format("%02d", alarm.hour)
             binding.minutes.text = String.format("%02d", alarm.minute)
             setAlarmState(binding, alarm)
             setListener(alarm)
             binding.completeAlarmButton.setOnClickListener {
-                listener.onClickCompleteAlarm(alarm)
+                listener?.onClickCompleteAlarm(alarm)
             }
         }
     }
 
-    fun setAlarmState(binding: AlarmLayoutBinding, alarm: Alarm) {
+    private fun setAlarmState(binding: AlarmLayoutBinding, alarm: Alarm) {
         if (alarm.repeat) {
-            binding.state.text = resources.getString(R.string.repeat_symbol)
+            binding.state.text = activity.resources.getString(R.string.repeat_symbol)
             binding.state.textSize = 24f
             binding.labelState.text = "Repeating"
         } else {
             if (alarm.complete) {
-                binding.state.text = resources.getString(R.string.green_circle)
+                binding.state.text = activity.resources.getString(R.string.green_circle)
                 binding.labelState.text = "Completado"
                 binding.completeAlarmButton.text = "Pendiente"
-                binding.completeAlarmButton.setTextColor(resources.getColor(R.color.orange))
+                binding.completeAlarmButton.setTextColor(activity.resources.getColor(R.color.orange))
             } else {
                 binding.completeAlarmButton.text = "Completado"
-                binding.completeAlarmButton.setTextColor(resources.getColor(R.color.green))
+                binding.completeAlarmButton.setTextColor(activity.resources.getColor(R.color.green))
                 if (isDateTimePassed(alarm)) {
-                    binding.state.text = resources.getString(R.string.red_circle)
+                    binding.state.text = activity.resources.getString(R.string.red_circle)
                     binding.labelState.text = "Pasado"
                 } else {
-                    binding.state.text = resources.getString(R.string.orange_circle)
+                    binding.state.text = activity.resources.getString(R.string.orange_circle)
                     binding.labelState.text = "Pendiente"
                 }
             }

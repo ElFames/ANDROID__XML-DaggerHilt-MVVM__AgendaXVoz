@@ -91,19 +91,34 @@
             app:destination="@id/editAlarmFragment"
             app:enterAnim="@anim/nav_default_enter_anim" />
         <action
+            android:id="@+id/action_alarmsFromDayFragment_to_newAlarmFragment"
+            app:destination="@id/newAlarmFragment"
+            app:enterAnim="@anim/nav_default_enter_anim" />
+        <action
             android:id="@+id/action_alarmsFromDayFragment_to_detailAlarmFragment"
             app:destination="@id/detailAlarmFragment"
             app:enterAnim="@anim/nav_default_enter_anim" />
     </fragment>
 
     <fragment
+        android:id="@+id/allAlarmsFragment"
+        android:name="agenda.x.voz.ui.views.alarmViews.AllAlarmsFragment"
+        android:label="Futuras Alarmas"
+        tools:layout="@layout/fragment_today_alarms" >
+    </fragment>
+
+    <fragment
         android:id="@+id/calendarFragment"
-        android:name="agenda.x.voz.ui.views.CalendarFragment"
+        android:name="agenda.x.voz.ui.views.calendarViews.CalendarFragment"
         android:label="Calendario"
         tools:layout="@layout/fragment_calendar" >
         <action
             android:id="@+id/action_calendarFragment_to_alarmsFromDayFragment"
             app:destination="@id/alarmsFromDayFragment"
+            app:enterAnim="@anim/nav_default_enter_anim" />
+        <action
+            android:id="@+id/action_calendarFragment_to_allAlarmsFragment"
+            app:destination="@id/allAlarmsFragment"
             app:enterAnim="@anim/nav_default_enter_anim" />
     </fragment>
     <fragment

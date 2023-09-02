@@ -8,6 +8,7 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.media.RingtoneManager
 import androidx.core.app.NotificationCompat
 
 class AlarmNotification: BroadcastReceiver() {
@@ -33,6 +34,7 @@ class AlarmNotification: BroadcastReceiver() {
         val notificationManager = context.getSystemService(NotificationManager::class.java)
         notificationManager?.createNotificationChannel(channel)
 
+        val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notification = NotificationCompat.Builder(context, "myChannel")
             .setSmallIcon(R.drawable.ic_calendar)
             .setContentTitle(title)
@@ -40,7 +42,8 @@ class AlarmNotification: BroadcastReceiver() {
             .setStyle(NotificationCompat.BigTextStyle().bigText(message))
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setSound(soundUri)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()
 
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

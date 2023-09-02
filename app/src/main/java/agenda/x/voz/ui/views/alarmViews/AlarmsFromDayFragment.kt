@@ -41,28 +41,35 @@ class AlarmsFromDayFragment: Fragment(), OnClickAlarmListener {
         selectedMonth = arguments?.getInt("selected_month", 0) ?: 0
         selectedDay = arguments?.getInt("selected_day", 0) ?: 0
 
-        binding.newAlarmButton.visibility = View.GONE
         binding.tomorrowTitle.visibility = View.GONE
+        binding.todayTitle.text = "$selectedDay - $selectedMonth - $selectedYear"
 
-        if (selectedDay == 0 && selectedMonth == 0 && selectedYear == 0) {
-            binding.todayTitle.text = "Error - Day not found"
-            Toast.makeText(requireContext(), "Ha habido un error recuperando el día, intentalo de nuevo", Toast.LENGTH_SHORT).show()
-        } else {
-            alarmsFromDayViewModel.getAlarmsFromDay(selectedDay,selectedMonth,selectedYear)
-            observerAlarmsChange()
-            binding.todayTitle.text = "$selectedDay - $selectedMonth - $selectedYear"
-        }
+        alarmsFromDayViewModel.getAlarmsFromDay(selectedDay,selectedMonth,selectedYear)
+        observerAlarmsChange()
+        onClickNewAlarm()
     }
 
     private fun observerAlarmsChange() {
         alarmsFromDayViewModel.alarms.observe(this) { alarms ->
+            binding.recyclerIsEmpty.visibility =
+                if (alarms.isNullOrEmpty()) View.VISIBLE
+                else View.GONE
             loadRecyclerView(alarms)
         }
     }
 
+    private fun onClickNewAlarm() {
+        binding.newAlarmButton.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putInt("selected_year", selectedYear)
+            bundle.putInt("selected_month", selectedMonth)
+            bundle.putInt("selected_day", selectedDay)
+            findNavController().navigate(R.id.action_alarmsFromDayFragment_to_newAlarmFragment, bundle)
+        }
+    }
     private fun loadRecyclerView(alarms: MutableList<Alarm>) {
         recyclerAlarmList = alarms
-        alarmAdapter = AlarmAdapter(recyclerAlarmList, requireActivity(), this, resources)
+        alarmAdapter = AlarmAdapter(recyclerAlarmList, requireActivity(), this, false)
         linearLayoutManager = LinearLayoutManager(context)
         startRecyclerView()
     }
