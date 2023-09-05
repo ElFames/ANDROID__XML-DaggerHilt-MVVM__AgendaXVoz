@@ -20,7 +20,7 @@
         android:layout_marginTop="16dp"
         android:paddingHorizontal="20dp"
         android:paddingVertical="7dp"
-        android:textColor="@color/title" />
+        android:textColor="@color/dark_blue" />
 
     <TextView
         android:id="@+id/notificationSettings"
@@ -42,7 +42,6 @@
         android:layout_height="wrap_content"
         android:text="Notificaciones activas"
         android:textSize="16sp"
-        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/notificationSettings"
         android:paddingVertical="7dp"
@@ -52,13 +51,48 @@
         android:id="@+id/notification_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         android:checked="true"
         app:layout_constraintTop_toTopOf="@id/notification_label"
         app:layout_constraintBottom_toBottomOf="@id/notification_label"
         android:layout_marginEnd="20dp"
-        android:thumbTint="@color/title"
+        android:thumbTint="@color/dark_blue"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    <TextView
+        android:id="@+id/dark_mode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Modo noche"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/notification_label"
+        android:layout_marginTop="15dp"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="20dp"
+        android:textColor="@color/black" />
+    <TextView
+        android:id="@+id/dark_mode_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Modo noche desativado"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dark_mode"
+        android:paddingVertical="7dp"
+        android:paddingHorizontal="20dp"
+        android:textColor="@color/black" />
+    <Switch
+        android:id="@+id/dark_mode_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:checked="false"
+        app:layout_constraintTop_toTopOf="@id/dark_mode_label"
+        app:layout_constraintBottom_toBottomOf="@id/dark_mode_label"
+        android:layout_marginEnd="20dp"
+        android:thumbTint="@color/dark_blue"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     <TextView
@@ -69,7 +103,7 @@
         android:text="Acerca de la Aplicación"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/notification_label"
+        app:layout_constraintTop_toBottomOf="@id/dark_mode_label"
         android:layout_marginTop="10dp"
         android:paddingVertical="10dp"
         android:paddingHorizontal="20dp"

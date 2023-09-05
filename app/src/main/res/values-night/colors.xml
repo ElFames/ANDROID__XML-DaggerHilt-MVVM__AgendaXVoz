@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FF000000</color>
+    <color name="black">#FFFFFFFF</color>
+    <color name="stongrey">#FFFFFFFF</color>
+    <color name="grey">#959595</color>
+    <color name="title">#0A0853</color>
+    <color name="background_button">#A80A0853</color>
+    <color name="green">#009602</color>
+    <color name="orange">#FF9800</color>
+    <color name="dark_blue">#9E93FF</color>
+    <color name="layout_background">#262629</color>
+</resources>
