@@ -174,7 +174,7 @@ class DetailAlarmFragment : Fragment() {
                 .setTitle("Eliminar Alarma")
                 .setMessage("¿Estás seguro de que quieres eliminar esta alarma?")
                 .setPositiveButton("Eliminar") { dialogInterface: DialogInterface, _: Int ->
-                    detailAlarmViewModel.deleteCurrentAlarm()
+                    detailAlarmViewModel.deleteCurrentAlarm(requireContext())
                     Toast.makeText(requireContext(),"Tarea eliminada!",Toast.LENGTH_SHORT).show()
                     findNavController().navigate(R.id.action_detailAlarmFragment_to_todayAlarmsFragment)
                     dialogInterface.dismiss()

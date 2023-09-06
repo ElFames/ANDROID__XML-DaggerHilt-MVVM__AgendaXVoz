@@ -10,4 +10,5 @@
     <color name="orange">#FF9800</color>
     <color name="dark_blue">#9E93FF</color>
     <color name="layout_background">#262629</color>
+    <color name="bottom_menu">#0A0853</color>
 </resources>

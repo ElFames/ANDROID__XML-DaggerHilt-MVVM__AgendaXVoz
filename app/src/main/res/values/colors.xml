@@ -10,4 +10,5 @@
     <color name="orange">#FF9800</color>
     <color name="title">#9E93FF</color>
     <color name="layout_background">#DADADA</color>
+    <color name="bottom_menu">#CDCAFF</color>
 </resources>

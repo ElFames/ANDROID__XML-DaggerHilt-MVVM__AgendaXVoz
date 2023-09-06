@@ -26,6 +26,7 @@ class CalendarFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        findNavController().popBackStack()
         setCurrentTime()
         calendarViewModel.getFutureAlarms()
         observerAlarmsChange()

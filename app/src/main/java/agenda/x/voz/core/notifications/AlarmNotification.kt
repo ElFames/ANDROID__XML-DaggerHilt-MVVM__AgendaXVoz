@@ -8,6 +8,7 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.media.AudioAttributes
 import android.media.RingtoneManager
 import androidx.core.app.NotificationCompat
 
@@ -29,12 +30,13 @@ class AlarmNotification: BroadcastReceiver() {
         val notificationIntent = Intent(context, MainActivity::class.java)
         notificationIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         val pendingIntent = PendingIntent.getActivity(context, notificationId, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
+        val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
         val channel = NotificationChannel("myChannel", "channel", NotificationManager.IMPORTANCE_DEFAULT)
+        channel.setSound(soundUri, AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_NOTIFICATION).build())
         val notificationManager = context.getSystemService(NotificationManager::class.java)
         notificationManager?.createNotificationChannel(channel)
 
-        val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notification = NotificationCompat.Builder(context, "myChannel")
             .setSmallIcon(R.drawable.ic_calendar)
             .setContentTitle(title)

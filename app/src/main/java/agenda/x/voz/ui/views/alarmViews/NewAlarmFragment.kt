@@ -17,8 +17,10 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.media.MediaRecorder
+import android.media.RingtoneManager
 import android.net.Uri
 import android.os.*
 import android.provider.Settings
@@ -57,12 +59,7 @@ class NewAlarmFragment : Fragment() {
         binding = FragmentNewAlarmBinding.inflate(layoutInflater)
         createNotificationChannel()
         ActivityCompat.requestPermissions(requireActivity(), permissions, REQUEST_RECORD_AUDIO_PERMISSION)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && !Environment.isExternalStorageManager()) {
-            val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
-            val uri = Uri.fromParts("package", requireActivity().packageName, null)
-            intent.data = uri
-            startActivity(intent)
-        }
+        requestManageAudio()
         return binding.root
     }
 
@@ -108,6 +105,7 @@ class NewAlarmFragment : Fragment() {
             onPlay(isPlaying)
         }
     }
+
     private fun onClickRecordButton() {
         binding.recordButton.setOnClickListener {
             isRecording = !isRecording
@@ -117,6 +115,15 @@ class NewAlarmFragment : Fragment() {
             else {
                 onRecord(isRecording,alarmName)
             }
+        }
+    }
+
+    private fun requestManageAudio() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && !Environment.isExternalStorageManager()) {
+            val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+            val uri = Uri.fromParts("package", requireActivity().packageName, null)
+            intent.data = uri
+            startActivity(intent)
         }
     }
 
@@ -182,9 +189,11 @@ class NewAlarmFragment : Fragment() {
     }
 
     private fun createNotificationChannel() {
+        val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val channel = NotificationChannel("myChannel", "channel", NotificationManager.IMPORTANCE_DEFAULT).apply {
             this.description = "Recordatorio de tareas"
         }
+        channel.setSound(soundUri, AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_NOTIFICATION).build())
         val notificationManager = requireContext().getSystemService(NotificationManager::class.java)
         notificationManager?.createNotificationChannel(channel)
     }

@@ -13,10 +13,12 @@ import agenda.x.voz.databinding.FragmentTodayAlarmsBinding
 import agenda.x.voz.domain.model.Alarm
 import agenda.x.voz.ui.viewModels.TodayAlarmsViewModel
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
