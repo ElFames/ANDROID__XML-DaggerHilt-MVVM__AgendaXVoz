@@ -12,8 +12,8 @@ android {
     defaultConfig {
         applicationId "agenda.x.voz"
         minSdk 26
-        targetSdk 32
-        versionCode 1
+        targetSdk 33
+        versionCode 3
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -38,6 +38,9 @@ android {
 }
 
 dependencies {
+    // CALENDAR
+    implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
+
     // RETROFIT
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
@@ -50,7 +53,6 @@ dependencies {
     implementation "androidx.activity:activity-ktx:1.7.2"
 
     // IMG
-    implementation 'de.hdodenhof:circleimageview:3.1.0'
 
     // SPLAHSCREEN
     implementation 'androidx.core:core-splashscreen:1.0.1'

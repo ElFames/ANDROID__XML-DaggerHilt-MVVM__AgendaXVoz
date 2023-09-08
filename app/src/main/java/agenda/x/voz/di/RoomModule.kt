@@ -1,6 +1,6 @@
 package agenda.x.voz.di
 
-import agenda.x.voz.data.AppDatabase
+import agenda.x.voz.data.database.AppDatabase
 import android.content.Context
 import androidx.room.Room
 import dagger.Module
@@ -18,9 +18,11 @@ object RoomModule {
     @Singleton
     @Provides
     fun provideRoom(@ApplicationContext context: Context) =
-        Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME).build()
+        Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
+            .addMigrations(AppDatabase.MIGRATION_1_2)
+            .build()
 
     @Singleton
     @Provides
-    fun provideAlarmDao(db:AppDatabase) = db.alarmDao()
+    fun provideAlarmDao(db: AppDatabase) = db.alarmDao()
 }

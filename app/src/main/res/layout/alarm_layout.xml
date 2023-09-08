@@ -155,4 +155,20 @@
         android:layout_width="120dp"
         android:layout_height="40dp" />
 
+    <Button
+        android:id="@+id/postponeAlarm_button"
+        app:layout_constraintStart_toEndOf="@id/editAlarm_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/viewAlarm_button"
+        android:layout_marginStart="10dp"
+        android:text="posponer"
+        android:textStyle="bold"
+        android:textColor="@color/green"
+        android:visibility="gone"
+        android:textSize="11dp"
+        android:layout_marginEnd="15dp"
+        android:backgroundTint="@color/background_button"
+        android:layout_width="120dp"
+        android:layout_height="40dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

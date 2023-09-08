@@ -1,10 +1,8 @@
 package agenda.x.voz.core.notifications
 
 import agenda.x.voz.R
-import agenda.x.voz.ui.views.MainActivity
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import agenda.x.voz.ui.views.system_views.MainActivity
+import android.app.*
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent

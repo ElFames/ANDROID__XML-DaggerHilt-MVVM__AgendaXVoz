@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/editAlarmFragment"
-        android:name="agenda.x.voz.ui.views.alarmViews.EditAlarmFragment"
+        android:name="agenda.x.voz.ui.views.alarm_views.EditAlarmFragment"
         android:label="Añadir o Editar"
         tools:layout="@layout/fragment_edit_alarm" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailAlarmFragment"
-        android:name="agenda.x.voz.ui.views.alarmViews.DetailAlarmFragment"
+        android:name="agenda.x.voz.ui.views.alarm_views.DetailAlarmFragment"
         android:label="Detalles de la Tarea"
         tools:layout="@layout/fragment_detail_alarm" >
         <action
@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/newAlarmFragment"
-        android:name="agenda.x.voz.ui.views.alarmViews.NewAlarmFragment"
+        android:name="agenda.x.voz.ui.views.alarm_views.NewAlarmFragment"
         android:label="Nueva alarma"
         tools:layout="@layout/fragment_new_alarm" >
         <action
@@ -44,7 +44,7 @@
 
     <fragment
         android:id="@+id/todayAlarmsFragment"
-        android:name="agenda.x.voz.ui.views.alarmViews.TodayAlarmsFragment"
+        android:name="agenda.x.voz.ui.views.alarm_views.recycler_views.TodayAlarmsFragment"
         android:label="Hoy"
         tools:layout="@layout/fragment_today_alarms" >
         <action
@@ -66,7 +66,7 @@
     </fragment>
     <fragment
         android:id="@+id/tomorrowAlarmsFragment"
-        android:name="agenda.x.voz.ui.views.alarmViews.TomorrowAlarmsFragment"
+        android:name="agenda.x.voz.ui.views.alarm_views.recycler_views.TomorrowAlarmsFragment"
         android:label="Mañana"
         tools:layout="@layout/fragment_tomorrow_alarms" >
         <action
@@ -89,7 +89,7 @@
 
     <fragment
         android:id="@+id/alarmsFromDayFragment"
-        android:name="agenda.x.voz.ui.views.alarmViews.AlarmsFromDayFragment"
+        android:name="agenda.x.voz.ui.views.alarm_views.recycler_views.AlarmsFromDayFragment"
         android:label="Alarmas del dia seleccionado"
         tools:layout="@layout/fragment_today_alarms" >
         <action
@@ -108,14 +108,14 @@
 
     <fragment
         android:id="@+id/allAlarmsFragment"
-        android:name="agenda.x.voz.ui.views.alarmViews.AllAlarmsFragment"
+        android:name="agenda.x.voz.ui.views.alarm_views.recycler_views.AllAlarmsFragment"
         android:label="Futuras Alarmas"
         tools:layout="@layout/fragment_today_alarms" >
     </fragment>
 
     <fragment
         android:id="@+id/calendarFragment"
-        android:name="agenda.x.voz.ui.views.calendarViews.CalendarFragment"
+        android:name="agenda.x.voz.ui.views.calendar_views.CalendarFragment"
         android:label="Calendario"
         tools:layout="@layout/fragment_calendar" >
         <action
@@ -129,7 +129,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="agenda.x.voz.ui.views.SettingsFragment"
+        android:name="agenda.x.voz.ui.views.system_views.SettingsFragment"
         android:label="Ajustes"
         tools:layout="@layout/fragment_settings" >
     </fragment>

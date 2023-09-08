@@ -6,7 +6,6 @@ import agenda.x.voz.data.database.entities.toDatabase
 import agenda.x.voz.domain.model.Alarm
 import agenda.x.voz.domain.model.toDomain
 import kotlinx.coroutines.*
-import okhttp3.internal.ignoreIoExceptions
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -33,6 +32,7 @@ class AlarmRepository @Inject constructor(
                 alarmData["hour"]!!.toString().toInt(),
                 alarmData["minute"]!!.toString().toInt(),
                 alarmData["repeat"]!!.toString().toBoolean(),
+                alarmData["repeat_day"]!!.toString().toBoolean(),
                 alarmData["complete"]!!.toString().toBoolean(),
                 alarmData["audioFilePath"]!!.toString()
             )
@@ -83,9 +83,17 @@ class AlarmRepository @Inject constructor(
     private fun checkRepeatingAlarms() {
         alarms.forEach {
             if (it.repeat) {
-                if (isDateTimePassed(it))
-                    updateTimeFromAlarmRepeating(it.toDatabase())
+                if (isDateTimePassed(it)) updateTimeFromAlarmRepeating(it.toDatabase(), 6)
+            } else if (it.repeatDay) {
+                if (isDateTimePassed(it)) updateTimeFromAlarmRepeating(it.toDatabase(), 0)
             }
+        }
+    }
+    fun postponeAlarm(alarm: Alarm) {
+        if (alarm.repeat) {
+            updateTimeFromAlarmRepeating(alarm.toDatabase(), 6)
+        } else if (alarm.repeatDay) {
+            updateTimeFromAlarmRepeating(alarm.toDatabase(), 0)
         }
     }
 
@@ -119,22 +127,20 @@ class AlarmRepository @Inject constructor(
         return year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)
     }
 
-    private fun updateTimeFromAlarmRepeating(alarm: AlarmEntity) {
-        val currentDate = Calendar.getInstance()
-        currentDate.apply {
+    private fun updateTimeFromAlarmRepeating(alarm: AlarmEntity, amount: Int) {
+        val alarmDate = Calendar.getInstance().apply {
             set(Calendar.HOUR, alarm.hour)
             set(Calendar.MINUTE, alarm.minute)
             set(Calendar.YEAR, alarm.year!!)
             set(Calendar.MONTH, alarm.month!!)
             set(Calendar.DAY_OF_MONTH, alarm.day!!)
-            add(Calendar.DAY_OF_YEAR, 6)
+            add(Calendar.DAY_OF_YEAR, amount)
         }
-        val day = currentDate.get(Calendar.DAY_OF_MONTH)
-        val month = currentDate.get(Calendar.MONTH)
-        val year = currentDate.get(Calendar.YEAR)
-        alarm.day = day
-        alarm.month = month
-        alarm.year = year
+
+        alarm.day = alarmDate.get(Calendar.DAY_OF_MONTH)
+        alarm.month = alarmDate.get(Calendar.MONTH)
+        alarm.year = alarmDate.get(Calendar.YEAR)
+
         CoroutineScope(Dispatchers.IO).launch {
             dao.insert(alarm)
         }

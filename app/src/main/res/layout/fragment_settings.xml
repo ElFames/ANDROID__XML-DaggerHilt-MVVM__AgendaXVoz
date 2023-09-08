@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.views.SettingsFragment">
+    tools:context=".ui.views.system_views.SettingsFragment">
 
     <TextView
         android:id="@+id/settingsTitle"
@@ -28,7 +28,6 @@
         android:layout_height="wrap_content"
         android:text="Notificaciones"
         android:textSize="18sp"
-        android:gravity="center"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/settingsTitle"
         android:layout_marginTop="15dp"
@@ -65,7 +64,6 @@
         android:layout_height="wrap_content"
         android:text="Modo noche"
         android:textSize="18sp"
-        android:gravity="center"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/notification_label"
         android:layout_marginTop="15dp"
@@ -99,7 +97,6 @@
         android:id="@+id/aboutApp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:text="Acerca de la Aplicación"
         android:textSize="18sp"
         android:textStyle="bold"

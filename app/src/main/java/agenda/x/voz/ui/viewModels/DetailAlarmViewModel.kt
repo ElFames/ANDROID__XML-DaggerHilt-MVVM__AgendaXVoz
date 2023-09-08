@@ -1,7 +1,7 @@
 package agenda.x.voz.ui.viewModels
 
 import agenda.x.voz.domain.model.Alarm
-import agenda.x.voz.domain.useCases.DeleteAlarm
+import agenda.x.voz.domain.use_cases.DeleteAlarm
 import android.app.NotificationManager
 import android.content.Context
 import androidx.lifecycle.MutableLiveData

@@ -1,8 +1,7 @@
 package agenda.x.voz.ui.viewModels
 
 import agenda.x.voz.domain.model.Alarm
-import agenda.x.voz.domain.useCases.InsertNewAlarm
-import android.util.Log
+import agenda.x.voz.domain.use_cases.InsertNewAlarm
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

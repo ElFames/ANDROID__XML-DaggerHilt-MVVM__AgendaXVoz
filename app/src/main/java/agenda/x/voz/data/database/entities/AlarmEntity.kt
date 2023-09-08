@@ -14,6 +14,7 @@ data class AlarmEntity(
     @ColumnInfo(name = "hour") var hour: Int,
     @ColumnInfo(name = "minute") var minute: Int,
     @ColumnInfo(name = "repeat") var repeat: Boolean,
+    @ColumnInfo(name = "repeat_day") var repeatDay: Boolean,
     @ColumnInfo(name = "complete") var complete: Boolean,
     @ColumnInfo(name = "audio_file_path") var audioFilePath: String
 ) {
@@ -22,7 +23,7 @@ data class AlarmEntity(
 }
 
 fun Alarm.toDatabase(): AlarmEntity {
-    val alarmEntity = AlarmEntity(name, day, month, year, hour, minute, repeat, complete, audioFilePath)
+    val alarmEntity = AlarmEntity(name, day, month, year, hour, minute, repeat, repeatDay, complete, audioFilePath)
     alarmEntity.id = id
     return alarmEntity
 }

@@ -2,6 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="calendar">#EFEFEF</color>
     <color name="grey">#989898</color>
     <color name="stongrey">#4C4C4C</color>
     <color name="dark_blue">#0A0853</color>
@@ -9,6 +10,7 @@
     <color name="green">#009602</color>
     <color name="orange">#FF9800</color>
     <color name="title">#9E93FF</color>
-    <color name="layout_background">#DADADA</color>
+    <color name="layout_background">#DFDFDF</color>
     <color name="bottom_menu">#CDCAFF</color>
+    <color name="red">#FF0000</color>
 </resources>

@@ -14,8 +14,9 @@ class AlarmModel(
     var hour: Int,
     var minute: Int,
     var repeat: Boolean,
+    var repeatDay: Boolean,
     var complete: Boolean,
     var audioFilePath: String
 ) : Parcelable
 
-fun Alarm.toModel() = AlarmModel(id, name, day, month, year, hour, minute, repeat, complete, audioFilePath)
+fun Alarm.toModel() = AlarmModel(id, name, day, month, year, hour, minute, repeat, repeatDay, complete, audioFilePath)

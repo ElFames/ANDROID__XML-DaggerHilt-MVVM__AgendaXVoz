@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:background="@color/layout_background"
     android:layout_height="match_parent"
-    tools:context=".ui.views.MainActivity">
+    tools:context=".ui.views.system_views.MainActivity">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.views.calendarViews.CalendarFragment">
+    tools:context=".ui.views.calendar_views.CalendarFragment">
 
     <TextView
         android:id="@+id/title"
@@ -22,13 +23,51 @@
         android:paddingHorizontal="20dp"
         android:text="Calendario" />
 
-    <CalendarView
-        android:id="@+id/calendarView"
-        app:layout_constraintTop_toBottomOf="@id/instructions"
+    <TextView
+        android:id="@+id/instructions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:theme="@style/Widget.Material3.MaterialCalendar" />
+        app:layout_constraintTop_toBottomOf="@id/title"
+        android:textSize="14sp"
+        android:textColor="@color/stongrey"
+        android:fontFamily="serif"
+        android:layout_marginTop="8dp"
+        android:paddingVertical="7dp"
+        android:paddingHorizontal="25dp"
+        android:text="Selecciona un dia para ver las tareas programadas o para programar una. Desliza para cambiar de mes." />
+
+    <TextView
+        android:id="@+id/calendar_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/instructions"
+        android:textSize="17sp"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="20dp"
+        android:gravity="center"
+        android:background="@color/calendar"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:fontFamily="serif"
+        android:paddingBottom="7dp"
+        android:paddingTop="17dp"
+        android:text="Enero de 1996" />
+
+    <com.github.sundeepk.compactcalendarview.CompactCalendarView
+        android:id="@+id/calendarView"
+        app:layout_constraintTop_toBottomOf="@id/calendar_date"
+        android:layout_height="380dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_width="match_parent"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        app:compactCalendarTargetHeight="400dp"
+        app:compactCalendarTextSize="13sp"
+        app:compactCalendarBackgroundColor="@color/calendar"
+        app:compactCalendarTextColor="@color/black"
+        app:compactCalendarCurrentSelectedDayBackgroundColor="@color/background_button"
+        app:compactCalendarCurrentDayBackgroundColor="@color/background_button"
+        app:compactCalendarMultiEventIndicatorColor="@color/red" />
 
     <Button
         android:id="@+id/view_history_button"
@@ -43,17 +82,5 @@
         android:layout_width="match_parent"
         android:layout_height="40dp" />
 
-    <TextView
-        android:id="@+id/instructions"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/title"
-        android:textSize="14sp"
-        android:textColor="#8F8F8F"
-        android:fontFamily="serif"
-        android:layout_marginTop="8dp"
-        android:paddingVertical="7dp"
-        android:paddingHorizontal="25dp"
-        android:text="Selecciona un dia para ver las tareas programadas o para programar una." />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
