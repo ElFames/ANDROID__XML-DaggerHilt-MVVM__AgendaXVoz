@@ -1,5 +1,6 @@
 package agenda.x.voz.data.repositories
 
+import agenda.x.voz.core.api.AgendaAPI
 import agenda.x.voz.data.database.dao.AlarmDao
 import agenda.x.voz.data.database.entities.AlarmEntity
 import agenda.x.voz.data.database.entities.toDatabase
@@ -11,7 +12,8 @@ import java.util.*
 import javax.inject.Inject
 
 class AlarmRepository @Inject constructor(
-    private val dao: AlarmDao
+    private val dao: AlarmDao,
+    private val agendaAPI: AgendaAPI
 ) {
     var alarms = mutableListOf<Alarm>()
 
@@ -21,6 +23,8 @@ class AlarmRepository @Inject constructor(
             checkRepeatingAlarms()
         }
     }
+
+    suspend fun getLatestVersion() = agendaAPI.getLatestVersion("/latestVersion")
 
     suspend fun insertNewAlarm(alarmData: MutableMap<String, Any>): AlarmEntity? {
         val insertAlarm = CoroutineScope(Dispatchers.IO).async {

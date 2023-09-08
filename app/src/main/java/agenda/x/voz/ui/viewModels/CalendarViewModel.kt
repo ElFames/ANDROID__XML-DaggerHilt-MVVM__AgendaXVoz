@@ -29,7 +29,7 @@ class CalendarViewModel @Inject constructor(
         alarms.value?.forEach { alarm ->
             val calendar = Calendar.getInstance()
             calendar.set(Calendar.YEAR, alarm.year!!)
-            calendar.set(Calendar.MONTH, alarm.month!!)
+            calendar.set(Calendar.MONTH, alarm.month!! - 1)
             calendar.set(Calendar.DAY_OF_MONTH, alarm.day!!)
             myDates.add(calendar)
         }

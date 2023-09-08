@@ -14,6 +14,7 @@ import com.github.sundeepk.compactcalendarview.CompactCalendarView
 import com.github.sundeepk.compactcalendarview.domain.Event
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
+import java.time.Month
 import java.util.*
 
 @AndroidEntryPoint
@@ -36,10 +37,13 @@ class CalendarFragment : Fragment() {
 
     private fun loadCalendarProperties() {
         binding.calendarView.setDayColumnNames(arrayOf("Lu","Ma","Mi","Ju","Vi","Sa","Do"))
-        val currentDate = Calendar.getInstance().time
-        val dateFormat = SimpleDateFormat("MMMM 'de' yyyy", Locale("es", "ES"))
-        val formattedDate = dateFormat.format(currentDate).replaceFirstChar { it.uppercase() }
+        val formattedDate = calendarDateToFormattedDate(Calendar.getInstance().time)
         binding.calendarDate.text = formattedDate
+    }
+
+    private fun calendarDateToFormattedDate(date: Date): String {
+        val dateFormat = SimpleDateFormat("MMMM 'de' yyyy", Locale("es", "ES"))
+        return dateFormat.format(date).replaceFirstChar { it.uppercase() }
     }
 
     private fun onClickViewAllAlarms() {
@@ -66,7 +70,7 @@ class CalendarFragment : Fragment() {
                 calendar.time = dateClicked
 
                 val year = calendar.get(Calendar.YEAR)
-                val month = calendar.get(Calendar.MONTH)
+                val month = calendar.get(Calendar.MONTH) + 1
                 val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
 
                 val bundle = Bundle()
@@ -77,9 +81,9 @@ class CalendarFragment : Fragment() {
                 findNavController().navigate(R.id.action_calendarFragment_to_alarmsFromDayFragment, bundle)
             }
 
-            override fun onMonthScroll(firstDayOfNewMonth: Date) {
-                val calendar = Calendar.getInstance()
-                calendar.time = firstDayOfNewMonth
+            override fun onMonthScroll(dateNewMonth: Date) {
+                val formattedDate = calendarDateToFormattedDate(dateNewMonth)
+                binding.calendarDate.text = formattedDate
             }
         })
     }

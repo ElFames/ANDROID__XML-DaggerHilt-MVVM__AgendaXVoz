@@ -13,8 +13,13 @@ import agenda.x.voz.ui.views.recycler_components.interfaces.OnClickAlarmListener
 import agenda.x.voz.databinding.FragmentTodayAlarmsBinding
 import agenda.x.voz.domain.model.Alarm
 import agenda.x.voz.ui.viewModels.TodayAlarmsViewModel
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.net.Uri
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
 import androidx.fragment.app.viewModels
@@ -43,9 +48,46 @@ class TodayAlarmsFragment : Fragment(), OnClickAlarmListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        checkForUpdates()
         todayAlarmsViewModel.getTodayAlarms()
         observerAlarmsChange()
         onClickListeners()
+    }
+
+    private fun checkForUpdates() {
+        val appVersion = getAppVersion()
+        todayAlarmsViewModel.getLatestVersion()
+        todayAlarmsViewModel.myLatestVersion.observe(this) {
+            if (it > appVersion) {
+                showUpdateVersionAlertDialog()
+            }
+        }
+
+    }
+
+    private fun showUpdateVersionAlertDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Actualización disponible")
+            .setMessage("Hay una nueva versión de la aplicación! Descargala en Play Store")
+            .setPositiveButton("Actualizar") { _: DialogInterface, _: Int ->
+                val url = "https://play.google.com/store/apps/details?id=agenda.x.voz"
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                startActivity(intent)
+            }
+            .setOnDismissListener {
+                showUpdateVersionAlertDialog()
+            }
+            .create()
+            .show()
+    }
+
+    private fun getAppVersion(): Int {
+        return try {
+            val packageInfo = requireContext().packageManager.getPackageInfo(requireContext().packageName, 0)
+            packageInfo.versionCode
+        } catch (e: PackageManager.NameNotFoundException) {
+            0
+        }
     }
 
     private fun observerAlarmsChange() {
