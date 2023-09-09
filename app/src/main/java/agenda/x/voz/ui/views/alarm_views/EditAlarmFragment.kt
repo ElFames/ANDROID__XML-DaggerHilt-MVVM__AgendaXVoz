@@ -41,7 +41,7 @@ class EditAlarmFragment : Fragment() {
     private var player: MediaPlayer? = null
     private var isRecording = false
     private var isPlaying = false
-    private var externalFilesDir: File? = null
+    private var filesDir: File? = null
     private lateinit var audioFilePath: File
     private var permissionToRecordAccepted = false
     private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
@@ -55,22 +55,12 @@ class EditAlarmFragment : Fragment() {
     ): View {
         binding = FragmentEditAlarmBinding.inflate(layoutInflater)
         ActivityCompat.requestPermissions(requireActivity(), permissions, REQUEST_RECORD_AUDIO_PERMISSION)
-        requestManageAudioPermission()
         return binding.root
-    }
-
-    private fun requestManageAudioPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && !Environment.isExternalStorageManager()) {
-            val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
-            val uri = Uri.fromParts("package", requireActivity().packageName, null)
-            intent.data = uri
-            startActivity(intent)
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        externalFilesDir = requireContext().getExternalFilesDir(null)
+        filesDir = requireContext().filesDir
         val alarm = arguments?.getParcelable<AlarmModel>("alarm")
         editAlarmViewModel.setAlarm(alarm!!.toDomain())
         editAlarmViewModel.alarmToEditAlarm.observe(this) {
@@ -209,7 +199,7 @@ class EditAlarmFragment : Fragment() {
         binding.playButtonLabel.visibility = View.GONE
         binding.recordButtonLabel.text = "Grabando..."
         binding.recordButton.text = resources.getString(R.string.cuadrado)
-        audioFilePath = File(externalFilesDir, alarmName)
+        audioFilePath = File(filesDir, alarmName)
         audioFilePath.toPath().deleteIfExists()
         audioFilePath.createNewFile()
         startRecording()

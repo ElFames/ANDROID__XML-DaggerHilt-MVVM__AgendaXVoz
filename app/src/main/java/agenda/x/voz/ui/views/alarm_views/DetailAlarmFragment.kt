@@ -40,12 +40,6 @@ class DetailAlarmFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentDetailAlarmBinding.inflate(layoutInflater)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && !Environment.isExternalStorageManager()) {
-            val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
-            val uri = Uri.fromParts("package", requireActivity().packageName, null)
-            intent.data = uri
-            startActivity(intent)
-        }
         return binding.root
     }
 

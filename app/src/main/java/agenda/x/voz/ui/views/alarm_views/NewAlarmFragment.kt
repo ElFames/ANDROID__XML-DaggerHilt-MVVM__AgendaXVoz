@@ -40,7 +40,7 @@ class NewAlarmFragment : Fragment() {
     private var player: MediaPlayer? = null
     private var isRecording = false
     private var isPlaying = false
-    private var externalFilesDir: File? = null
+    private var filesDir: File? = null
     private var audioFilePath: File? = null
     private var permissionToRecordAccepted = false
     private var permissions: Array<String> = arrayOf(Manifest.permission.RECORD_AUDIO)
@@ -54,13 +54,13 @@ class NewAlarmFragment : Fragment() {
         binding = FragmentNewAlarmBinding.inflate(layoutInflater)
         createNotificationChannel()
         ActivityCompat.requestPermissions(requireActivity(), permissions, REQUEST_RECORD_AUDIO_PERMISSION)
-        requestManageAudio()
+        //requestManageAudio()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        externalFilesDir = requireContext().getExternalFilesDir(null)
+        filesDir = requireContext().filesDir
 
         selectedYear = arguments?.getInt("selected_year", 0) ?: 0
         selectedMonth = arguments?.getInt("selected_month", 0) ?: 0
@@ -232,7 +232,7 @@ class NewAlarmFragment : Fragment() {
         binding.etiquetaEditText.isEnabled = false
         binding.recordButtonLabel.text = "Grabando..."
         binding.recordButton.text = resources.getString(R.string.cuadrado)
-        audioFilePath = File(externalFilesDir, alarmName)
+        audioFilePath = File(filesDir, alarmName)
         audioFilePath!!.toPath().deleteIfExists()
         audioFilePath!!.createNewFile()
         startRecording()

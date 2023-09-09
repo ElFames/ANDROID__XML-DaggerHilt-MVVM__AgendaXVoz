@@ -24,7 +24,7 @@ class AlarmRepository @Inject constructor(
         }
     }
 
-    suspend fun getLatestVersion() = agendaAPI.getLatestVersion("/latestVersion")
+    suspend fun getLatestVersion() = agendaAPI.getLatestVersion()
 
     suspend fun insertNewAlarm(alarmData: MutableMap<String, Any>): AlarmEntity? {
         val insertAlarm = CoroutineScope(Dispatchers.IO).async {

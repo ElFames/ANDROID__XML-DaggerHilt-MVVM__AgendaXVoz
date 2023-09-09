@@ -16,12 +16,12 @@ object RetrofitModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit() = Retrofit.Builder()
+    fun provideRetrofit(): Retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
     @Singleton
     @Provides
-    fun provideApiInterface(retrofit: Retrofit) = retrofit.create(ApiInterface::class.java)
+    fun provideApiInterface(retrofit: Retrofit): ApiInterface = retrofit.create(ApiInterface::class.java)
 }
