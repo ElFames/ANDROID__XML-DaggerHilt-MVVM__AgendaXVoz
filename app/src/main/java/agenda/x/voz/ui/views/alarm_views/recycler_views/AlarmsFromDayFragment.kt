@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class AlarmsFromDayFragment: Fragment(), OnClickAlarmListener {
@@ -100,7 +101,7 @@ class AlarmsFromDayFragment: Fragment(), OnClickAlarmListener {
     }
 
     override fun onClickPostponeAlarm(alarm: Alarm) {
-        alarmsFromDayViewModel.postponeMyAlarm(alarm)
+        runBlocking { alarmsFromDayViewModel.postponeMyAlarm(alarm, requireActivity()) }
         alarmsFromDayViewModel.getAlarmsFromDay(selectedDay,selectedMonth,selectedYear)
         observerAlarmsChange()
     }

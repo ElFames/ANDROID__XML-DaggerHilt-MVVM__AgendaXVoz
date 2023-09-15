@@ -5,6 +5,7 @@ import agenda.x.voz.domain.use_cases.SetAlarmIsComplete
 import agenda.x.voz.domain.model.Alarm
 import agenda.x.voz.domain.use_cases.GetLatestVersion
 import agenda.x.voz.domain.use_cases.PostponeAlarm
+import android.app.Activity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -28,8 +29,8 @@ class TodayAlarmsViewModel @Inject constructor(
     fun changeCompleteState(alarm: Alarm) {
         setAlarmIsComplete(alarm)
     }
-    fun postponeMyAlarm(alarm: Alarm) {
-        postponeAlarm(alarm)
+    suspend fun postponeMyAlarm(alarm: Alarm, activity: Activity) {
+        postponeAlarm(alarm, activity)
     }
 
     fun getLatestVersion() {

@@ -1,11 +1,13 @@
 package agenda.x.voz.data.repositories
 
 import agenda.x.voz.core.api.AgendaAPI
+import agenda.x.voz.core.notifications.MyAlarmManager
 import agenda.x.voz.data.database.dao.AlarmDao
 import agenda.x.voz.data.database.entities.AlarmEntity
 import agenda.x.voz.data.database.entities.toDatabase
 import agenda.x.voz.domain.model.Alarm
 import agenda.x.voz.domain.model.toDomain
+import android.app.Activity
 import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -93,11 +95,17 @@ class AlarmRepository @Inject constructor(
             }
         }
     }
-    fun postponeAlarm(alarm: Alarm) {
+    suspend fun postponeAlarm(alarm: Alarm, activity: Activity) {
         if (alarm.repeat) {
             updateTimeFromAlarmRepeating(alarm.toDatabase(), 6)
+            val alarmPostponed = dao.getAlarmById(alarm.id)!!
+            MyAlarmManager.notification1HourBefore(alarmPostponed.toDomain(), activity, alarmPostponed.toDomain().getDate(),alarmPostponed.hour - 1)
+            MyAlarmManager.notificationInTimePassed(alarmPostponed.toDomain(), activity, alarmPostponed.toDomain().getDate())
         } else if (alarm.repeatDay) {
             updateTimeFromAlarmRepeating(alarm.toDatabase(), 0)
+            val alarmPostponed = dao.getAlarmById(alarm.id)!!
+            MyAlarmManager.notification1HourBefore(alarmPostponed.toDomain(), activity, alarmPostponed.toDomain().getDate(),alarmPostponed.hour - 1)
+            MyAlarmManager.notificationInTimePassed(alarmPostponed.toDomain(), activity, alarmPostponed.toDomain().getDate())
         }
     }
 

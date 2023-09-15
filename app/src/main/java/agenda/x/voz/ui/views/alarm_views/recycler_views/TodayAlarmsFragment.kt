@@ -27,6 +27,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.runBlocking
 import java.util.*
 
 @AndroidEntryPoint
@@ -177,7 +178,7 @@ class TodayAlarmsFragment : Fragment(), OnClickAlarmListener {
     }
 
     override fun onClickPostponeAlarm(alarm: Alarm) {
-        todayAlarmsViewModel.postponeMyAlarm(alarm)
+        runBlocking { todayAlarmsViewModel.postponeMyAlarm(alarm, requireActivity()) }
         todayAlarmsViewModel.getTodayAlarms()
         observerAlarmsChange()
     }

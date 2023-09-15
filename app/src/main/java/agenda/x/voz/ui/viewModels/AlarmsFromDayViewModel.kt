@@ -4,6 +4,7 @@ import agenda.x.voz.domain.use_cases.GetAlarmsFromDay
 import agenda.x.voz.domain.use_cases.SetAlarmIsComplete
 import agenda.x.voz.domain.model.Alarm
 import agenda.x.voz.domain.use_cases.PostponeAlarm
+import android.app.Activity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +24,7 @@ class AlarmsFromDayViewModel @Inject constructor(
     fun changeCompleteState(alarm: Alarm) {
         setAlarmIsComplete(alarm)
     }
-    fun postponeMyAlarm(alarm: Alarm) {
-        postponeAlarm(alarm)
+    suspend fun postponeMyAlarm(alarm: Alarm, activity: Activity) {
+        postponeAlarm(alarm, activity)
     }
 }
