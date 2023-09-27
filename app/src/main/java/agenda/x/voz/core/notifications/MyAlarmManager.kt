@@ -1,6 +1,7 @@
 package agenda.x.voz.core.notifications
 
 import agenda.x.voz.domain.model.Alarm
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlarmManager
 import android.app.NotificationManager
@@ -10,6 +11,7 @@ import android.content.Intent
 import java.util.*
 
 object MyAlarmManager {
+    @SuppressLint("ScheduleExactAlarm")
     fun notification1HourBefore(alarmToNotify: Alarm, activity: Activity, dateTime: Calendar, hour: Int) {
         val notificationId = "${alarmToNotify.id.toInt()}1111111".toInt()
         val intent = Intent(activity.applicationContext, AlarmNotification::class.java)
@@ -27,6 +29,7 @@ object MyAlarmManager {
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, dateTime.timeInMillis + 1000, pendingIntent)
     }
 
+    @SuppressLint("ScheduleExactAlarm")
     fun notificationInTimePassed(alarmToNotify: Alarm, activity: Activity, dateTime: Calendar) {
         val intent = Intent(activity.applicationContext, AlarmNotification::class.java)
         intent.putExtra("title", "A llegado la hora de...")
@@ -42,6 +45,7 @@ object MyAlarmManager {
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, dateTime.timeInMillis + 1000, pendingIntent)
     }
 
+    @SuppressLint("ScheduleExactAlarm")
     fun notification3DaysOffline(activity: Activity) {
         val notificationId = 333333333
         val notificationManager = activity.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

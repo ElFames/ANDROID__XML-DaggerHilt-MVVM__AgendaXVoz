@@ -11,6 +11,7 @@ import android.media.RingtoneManager
 import androidx.core.app.NotificationCompat
 
 class AlarmNotification: BroadcastReceiver() {
+
     override fun onReceive(context: Context, intent: Intent?) {
         val title = intent?.getStringExtra("title") ?: "El tiempo pasa volando"
         val message = intent?.getStringExtra("message") ?: "Tienes una tarea pendiente"
@@ -30,7 +31,7 @@ class AlarmNotification: BroadcastReceiver() {
         val pendingIntent = PendingIntent.getActivity(context, notificationId, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
         val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
-        val channel = NotificationChannel("myChannel", "channel", NotificationManager.IMPORTANCE_DEFAULT)
+        val channel = NotificationChannel("myChannel", "channel", NotificationManager.IMPORTANCE_HIGH)
         channel.setSound(soundUri, AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_NOTIFICATION).build())
         val notificationManager = context.getSystemService(NotificationManager::class.java)
         notificationManager?.createNotificationChannel(channel)

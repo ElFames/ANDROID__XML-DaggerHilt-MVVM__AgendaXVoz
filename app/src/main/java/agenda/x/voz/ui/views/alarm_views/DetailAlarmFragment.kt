@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import agenda.x.voz.R
+import agenda.x.voz.core.notifications.AlarmNotification
 import agenda.x.voz.data.model.AlarmModel
 import agenda.x.voz.databinding.FragmentDetailAlarmBinding
 import agenda.x.voz.domain.model.Alarm
@@ -49,7 +50,7 @@ class DetailAlarmFragment : Fragment() {
         val alarm = arguments?.getParcelable<AlarmModel>("alarm")
         detailAlarmViewModel.setAlarm(alarm!!.toDomain())
 
-        detailAlarmViewModel.alarm.observe(this) {
+        detailAlarmViewModel.alarm.observe(viewLifecycleOwner) {
             audioFilePath = Path(it.audioFilePath).toFile()
             binding.etiqueta.text = it.name
             setTime(it)

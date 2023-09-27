@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="agenda.x.voz">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
@@ -24,11 +23,11 @@
         <activity
             android:name=".ui.views.system_views.MainActivity"
             android:screenOrientation="portrait"
-            android:exported="true" />
+            android:exported="false" />
 
         <receiver
             android:name=".core.notifications.AlarmNotification"
-            android:enabled="true" />
+            android:enabled="false" />
 
         <activity
             android:name=".ui.views.system_views.SplashScreen"

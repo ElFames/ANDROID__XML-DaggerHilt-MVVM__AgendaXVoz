@@ -13,14 +13,11 @@ import agenda.x.voz.domain.model.Alarm
 import agenda.x.voz.domain.model.toDomain
 import agenda.x.voz.ui.viewModels.EditAlarmViewModel
 import android.Manifest
-import android.content.Intent
+import android.app.NotificationManager
+import android.content.Context
 import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.media.MediaRecorder
-import android.net.Uri
-import android.os.Build
-import android.os.Environment
-import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -63,7 +60,7 @@ class EditAlarmFragment : Fragment() {
         filesDir = requireContext().filesDir
         val alarm = arguments?.getParcelable<AlarmModel>("alarm")
         editAlarmViewModel.setAlarm(alarm!!.toDomain())
-        editAlarmViewModel.alarmToEditAlarm.observe(this) {
+        editAlarmViewModel.alarmToEditAlarm.observe(viewLifecycleOwner) {
             setTimePicker(it)
             setDatePicker(it)
             binding.etiquetaEditText.setText(it.name)
@@ -150,11 +147,18 @@ class EditAlarmFragment : Fragment() {
             val alarmEdited = getAlarmProperties(alarm)
             editAlarmViewModel.editMyAlarm(alarmEdited)
             val calendar = getAlarmDate(alarm)
+            val notificationId = alarmEdited.id.toInt()
+            cancelNotification(requireContext(), notificationId)
             MyAlarmManager.notification1HourBefore(alarmEdited, requireActivity(), calendar,alarmEdited.hour - 1)
             MyAlarmManager.notificationInTimePassed(alarmEdited, requireActivity(), calendar)
             Toast.makeText(requireContext(),"Tarea editada con éxito",Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.action_editAlarmsFragment_to_todayAlarmsFragment)
         }
+    }
+
+    private fun cancelNotification(context: Context, notificationId: Int) {
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.cancel(notificationId)
     }
 
     private fun getAlarmDate(alarm: Alarm): Calendar {

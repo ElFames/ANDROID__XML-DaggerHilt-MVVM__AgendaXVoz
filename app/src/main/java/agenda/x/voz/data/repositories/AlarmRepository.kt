@@ -8,6 +8,8 @@ import agenda.x.voz.data.database.entities.toDatabase
 import agenda.x.voz.domain.model.Alarm
 import agenda.x.voz.domain.model.toDomain
 import android.app.Activity
+import android.app.NotificationManager
+import android.content.Context
 import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -99,6 +101,8 @@ class AlarmRepository @Inject constructor(
         if (alarm.repeat) {
             updateTimeFromAlarmRepeating(alarm.toDatabase(), 6)
             val alarmPostponed = dao.getAlarmById(alarm.id)!!
+            val notificationId = alarm.id.toInt()
+            cancelNotification(activity.applicationContext, notificationId)
             MyAlarmManager.notification1HourBefore(alarmPostponed.toDomain(), activity, alarmPostponed.toDomain().getDate(),alarmPostponed.hour - 1)
             MyAlarmManager.notificationInTimePassed(alarmPostponed.toDomain(), activity, alarmPostponed.toDomain().getDate())
         } else if (alarm.repeatDay) {
@@ -107,6 +111,10 @@ class AlarmRepository @Inject constructor(
             MyAlarmManager.notification1HourBefore(alarmPostponed.toDomain(), activity, alarmPostponed.toDomain().getDate(),alarmPostponed.hour - 1)
             MyAlarmManager.notificationInTimePassed(alarmPostponed.toDomain(), activity, alarmPostponed.toDomain().getDate())
         }
+    }
+    private fun cancelNotification(context: Context, notificationId: Int) {
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.cancel(notificationId)
     }
 
     private fun isTomorrowAlarm(alarm: Alarm): Boolean {
