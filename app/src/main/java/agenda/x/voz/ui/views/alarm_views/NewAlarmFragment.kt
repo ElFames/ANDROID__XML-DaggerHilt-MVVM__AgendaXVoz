@@ -66,7 +66,6 @@ class NewAlarmFragment : Fragment() {
         selectedMonth = arguments?.getInt("selected_month", 0) ?: 0
         selectedDay = arguments?.getInt("selected_day", 0) ?: 0
 
-        loadDatePicker()
         onClickListeners()
 
     }
@@ -83,22 +82,8 @@ class NewAlarmFragment : Fragment() {
 
     private fun onClickCancelButton() {
         binding.cancelButton.setOnClickListener {
-            findNavController().navigate(R.id.action_newAlarmsFragment_to_todayAlarmsFragment)
+            findNavController().popBackStack()
         }
-    }
-
-    private fun loadDatePicker() {
-        binding.dayPicker.minValue = 1
-        binding.dayPicker.maxValue = 31
-        binding.dayPicker.value = selectedDay
-
-        binding.monthPicker.minValue = 1
-        binding.monthPicker.maxValue = 12
-        binding.monthPicker.value = selectedMonth
-
-        binding.yearPicker.minValue = 2023
-        binding.yearPicker.maxValue = 2100
-        binding.yearPicker.value = selectedYear
     }
 
     private fun onClickPlayButton() {
@@ -120,15 +105,6 @@ class NewAlarmFragment : Fragment() {
         }
     }
 
-    private fun requestManageAudio() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && !Environment.isExternalStorageManager()) {
-            val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
-            val uri = Uri.fromParts("package", requireActivity().packageName, null)
-            intent.data = uri
-            startActivity(intent)
-        }
-    }
-
     private fun scheduleNotification(alarmToNotify: Alarm) {
         if (!isDateTimePassed(alarmToNotify, -1))
             MyAlarmManager.notification1HourBefore(alarmToNotify, requireActivity(), getAlarmDate(),binding.timePicker.hour - 1)
@@ -138,9 +114,6 @@ class NewAlarmFragment : Fragment() {
 
     private fun getAlarmDate(): Calendar {
         val calendar = Calendar.getInstance()
-        calendar.set(Calendar.YEAR, binding.yearPicker.value)
-        calendar.set(Calendar.MONTH, binding.monthPicker.value - 1)
-        calendar.set(Calendar.DAY_OF_MONTH, binding.dayPicker.value)
         calendar.set(Calendar.HOUR_OF_DAY, binding.timePicker.hour)
         calendar.set(Calendar.MINUTE, binding.timePicker.minute)
         return calendar
@@ -192,9 +165,9 @@ class NewAlarmFragment : Fragment() {
             } else {
                 val alarmMap: MutableMap<String,Any> = mutableMapOf()
                 alarmMap["name"] = binding.etiquetaEditText.text.toString()
-                alarmMap["day"] = binding.dayPicker.value
-                alarmMap["month"] = binding.monthPicker.value
-                alarmMap["year"] = binding.yearPicker.value
+                alarmMap["day"] = selectedDay
+                alarmMap["month"] = selectedMonth
+                alarmMap["year"] = selectedYear
                 alarmMap["hour"] = binding.timePicker.hour
                 alarmMap["minute"] = binding.timePicker.minute
                 alarmMap["repeat"] = binding.repeatSwitch.isChecked
@@ -202,10 +175,10 @@ class NewAlarmFragment : Fragment() {
                 alarmMap["complete"] = false
                 alarmMap["audioFilePath"] = audioFilePath?.path ?: "prueba"
                 newAlarmViewModel.saveAlarm(alarmMap)
-                newAlarmViewModel.savedAlarm.observe(this) {
+                newAlarmViewModel.savedAlarm.observe(viewLifecycleOwner) {
                     Toast.makeText(requireContext(),"Tarea añadida con éxito",Toast.LENGTH_SHORT).show()
                     scheduleNotification(it!!)
-                    findNavController().navigate(R.id.action_newAlarmsFragment_to_todayAlarmsFragment)
+                    findNavController().navigate(R.id.action_newAlarmsFragment_to_calendarFragment)
                 }
             }
         }

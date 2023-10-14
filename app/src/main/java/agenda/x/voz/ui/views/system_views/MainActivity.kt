@@ -31,13 +31,13 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         bottomNavigationView.setupWithNavController(navController)
         val appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.todayAlarmsFragment,
+            R.id.allAlarmsFragment,
             R.id.calendarFragment,
             R.id.settingsFragment
         ))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navController.addOnDestinationChangedListener { _, nd: NavDestination, _ ->
-            if (nd.id == R.id.todayAlarmsFragment || nd.id == R.id.tomorrowAlarmsFragment || nd.id == R.id.calendarFragment || nd.id == R.id.settingsFragment)
+            if (nd.id == R.id.allAlarmsFragment || nd.id == R.id.calendarFragment || nd.id == R.id.settingsFragment)
                 bottomNavigationView.visibility = View.VISIBLE
             else bottomNavigationView.visibility = View.GONE
         }

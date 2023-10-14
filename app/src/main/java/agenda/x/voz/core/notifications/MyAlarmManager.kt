@@ -26,6 +26,7 @@ object MyAlarmManager {
         )
         val alarmManager = activity.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         dateTime.set(Calendar.HOUR_OF_DAY, hour)
+        alarmManager.setAlarmClock(AlarmManager.AlarmClockInfo(dateTime.timeInMillis + 1000, pendingIntent), pendingIntent)
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, dateTime.timeInMillis + 1000, pendingIntent)
     }
 
@@ -42,6 +43,7 @@ object MyAlarmManager {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
         val alarmManager = activity.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.setAlarmClock(AlarmManager.AlarmClockInfo(dateTime.timeInMillis + 1000, pendingIntent), pendingIntent)
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, dateTime.timeInMillis + 1000, pendingIntent)
     }
 

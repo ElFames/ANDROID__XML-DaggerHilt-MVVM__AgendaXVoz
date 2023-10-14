@@ -21,9 +21,6 @@ class AlarmAdapter(private var alarms: MutableList<Alarm>?,
         val binding = AlarmLayoutBinding.bind(view)
 
         fun setListener(alarm: Alarm) {
-            binding.viewAlarmButton.setOnClickListener {
-                listener?.onClickViewAlarm(alarm)
-            }
             binding.editAlarmButton.setOnClickListener {
                 listener?.onClickEditAlarm(alarm)
             }
@@ -45,9 +42,6 @@ class AlarmAdapter(private var alarms: MutableList<Alarm>?,
                 binding.completeAlarmButton.setOnClickListener {
                     listener.onClickCompleteAlarm(alarm)
                 }
-                binding.postponeAlarmButton.setOnClickListener {
-                    listener.onClickPostponeAlarm(alarm)
-                }
             }
             val date = "${alarm.day} / ${alarm.month} / ${alarm.year}"
             binding.date.text = date
@@ -56,18 +50,15 @@ class AlarmAdapter(private var alarms: MutableList<Alarm>?,
             binding.hours.text = String.format("%02d", alarm.hour)
             binding.minutes.text = String.format("%02d", alarm.minute)
             setAlarmState(binding, alarm)
+            binding.deleteAlarmButton.setOnClickListener {
+                listener?.onClickDeleteAlarm(alarm)
+                notifyItemRemoved(position)
+            }
         }
     }
 
     private fun onClickRoot(binding: AlarmLayoutBinding, alarm: Alarm) {
         binding.root.setOnClickListener {
-            binding.viewAlarmButton.visibility = if(binding.viewAlarmButton.isVisible) View.GONE else View.VISIBLE
-            binding.editAlarmButton.visibility = if(binding.editAlarmButton.isVisible) View.GONE else View.VISIBLE
-            binding.completeAlarmButton.visibility = if(binding.completeAlarmButton.isVisible) View.GONE else View.VISIBLE
-            binding.postponeAlarmButton.visibility = if(binding.completeAlarmButton.isVisible) View.GONE else View.VISIBLE
-            if (alarm.repeat || alarm.repeatDay) {
-                binding.completeAlarmButton.visibility = View.GONE
-            } else binding.postponeAlarmButton.visibility = View.GONE
         }
     }
 

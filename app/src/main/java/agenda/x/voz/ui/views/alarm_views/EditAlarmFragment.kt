@@ -18,6 +18,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.media.MediaRecorder
+import android.os.Handler
 import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -51,7 +52,11 @@ class EditAlarmFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentEditAlarmBinding.inflate(layoutInflater)
-        ActivityCompat.requestPermissions(requireActivity(), permissions, REQUEST_RECORD_AUDIO_PERMISSION)
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            permissions,
+            REQUEST_RECORD_AUDIO_PERMISSION
+        )
         return binding.root
     }
 
@@ -66,7 +71,7 @@ class EditAlarmFragment : Fragment() {
             binding.etiquetaEditText.setText(it.name)
             binding.repeatSwitch.isChecked = it.repeat
             binding.repeatDaySwitch.isChecked = it.repeatDay
-            audioFilePath = Path(alarm.audioFilePath).toFile()
+            audioFilePath = Path(it.audioFilePath).toFile()
             onClickListeners(it)
         }
         onClickCancelButton()
@@ -88,33 +93,40 @@ class EditAlarmFragment : Fragment() {
             }
         }
     }
+
     private fun onClickRepeatDaySwitch() {
         binding.repeatDaySwitch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked)
                 binding.repeatSwitch.isChecked = false
         }
     }
+
     private fun onClickPlayButton() {
         binding.playButton.setOnClickListener {
             isPlaying = !isPlaying
             onPlay(isPlaying)
         }
     }
+
     private fun onClickRecordButton() {
         binding.recordButton.setOnClickListener {
             isRecording = !isRecording
             val alarmName = binding.etiquetaEditText.text.toString()
             if (alarmName.isEmpty())
-                Toast.makeText(requireContext(),"Ponle un nombre a la tarea primero!",Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Ponle un nombre a la tarea primero!",
+                    Toast.LENGTH_SHORT
+                ).show()
             else {
-                onRecord(isRecording,alarmName)
+                onRecord(isRecording, alarmName)
             }
         }
     }
 
     private fun onClickCancelButton() {
         binding.cancelButton.setOnClickListener {
-            findNavController().navigate(R.id.action_editAlarmsFragment_to_todayAlarmsFragment)
+            findNavController().popBackStack()
         }
     }
 
@@ -149,15 +161,21 @@ class EditAlarmFragment : Fragment() {
             val calendar = getAlarmDate(alarm)
             val notificationId = alarmEdited.id.toInt()
             cancelNotification(requireContext(), notificationId)
-            MyAlarmManager.notification1HourBefore(alarmEdited, requireActivity(), calendar,alarmEdited.hour - 1)
+            MyAlarmManager.notification1HourBefore(
+                alarmEdited,
+                requireActivity(),
+                calendar,
+                alarmEdited.hour - 1
+            )
             MyAlarmManager.notificationInTimePassed(alarmEdited, requireActivity(), calendar)
-            Toast.makeText(requireContext(),"Tarea editada con éxito",Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.action_editAlarmsFragment_to_todayAlarmsFragment)
+            Toast.makeText(requireContext(), "Tarea editada con éxito", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_editAlarmsFragment_to_calendarFragment)
         }
     }
 
     private fun cancelNotification(context: Context, notificationId: Int) {
-        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.cancel(notificationId)
     }
 
@@ -198,46 +216,58 @@ class EditAlarmFragment : Fragment() {
         }
         if (!permissionToRecordAccepted) onStop()
     }
-    private fun onRecord(start: Boolean, alarmName: String) = if (start) {
-        binding.playButton.visibility = View.GONE
-        binding.playButtonLabel.visibility = View.GONE
-        binding.recordButtonLabel.text = "Grabando..."
-        binding.recordButton.text = resources.getString(R.string.cuadrado)
-        audioFilePath = File(filesDir, alarmName)
-        audioFilePath.toPath().deleteIfExists()
-        audioFilePath.createNewFile()
-        startRecording()
-    } else {
-        if(audioFilePath.exists()) {
-            binding.recordButtonLabel.text = "Capturado"
-            binding.playButton.visibility = View.VISIBLE
-            binding.playButtonLabel.visibility = View.VISIBLE
-        }
-        else {
-            binding.recordButtonLabel.text = "Grabar"
+
+    private fun onRecord(start: Boolean, alarmName: String) =
+        if (start) {
             binding.playButton.visibility = View.GONE
-            binding.playButtonLabel.visibility = View.GONE
+            binding.recordButtonLabel.text = "Grabando..."
+            binding.recordButton.text = resources.getString(R.string.cuadrado)
+            audioFilePath = File(filesDir, alarmName)
+            audioFilePath.toPath().deleteIfExists()
+            audioFilePath.createNewFile()
+            startRecording()
+        } else {
+            if (audioFilePath.exists()) {
+                binding.recordButtonLabel.text = "Capturado"
+                binding.playButton.visibility = View.VISIBLE
+            } else {
+                binding.recordButtonLabel.text = "Grabar"
+                binding.playButton.visibility = View.GONE
+            }
+            binding.recordButton.text = resources.getString(R.string.red_circle)
+            stopRecording()
         }
-        binding.recordButton.text = resources.getString(R.string.red_circle)
-        stopRecording()
-    }
 
 
-    private fun onPlay(start: Boolean) = if (start) {
-        binding.playButtonLabel.text = "Reproduciendo..."
-        binding.playButton.text = resources.getString(R.string.cuadrado)
-        binding.playButton.textSize = 18f
-        binding.recordButton.visibility = View.GONE
-        binding.recordButtonLabel.visibility = View.GONE
-        startPlaying()
-    } else {
-        binding.playButtonLabel.text = "Reproducir"
-        binding.playButton.text = resources.getString(R.string.play_button)
-        binding.playButton.textSize = 28f
-        binding.recordButton.visibility = View.VISIBLE
-        binding.recordButtonLabel.visibility = View.VISIBLE
-        stopPlaying()
-    }
+    private fun onPlay(start: Boolean) =
+        if (start) {
+            if (audioFilePath.exists()) {
+                binding.playButton.setImageResource(R.drawable.ic_stop_button)
+                startPlaying()
+                player?.setOnPreparedListener {
+                    binding.progressBar.max = it.duration
+                    val updateHandler = Handler()
+                    val updateRunnable = object : Runnable {
+                        override fun run() {
+                            val currentPosition = player?.currentPosition
+                            binding.progressBar.progress = currentPosition ?: 0
+                            updateHandler.postDelayed(this, 100) // Actualizar cada 100ms
+                        }
+                    }
+                    updateHandler.postDelayed(updateRunnable, 0)
+                }
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "No hay audio. Para grabar uno ves a editar tarea",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        } else {
+            binding.playButton.setImageResource(R.drawable.ic_play_button)
+            binding.progressBar.progress = 0
+            stopPlaying()
+        }
 
     private fun startPlaying() {
         player = MediaPlayer().apply {

@@ -19,7 +19,7 @@
         android:textSize="28sp"
         android:textColor="@color/dark_blue"
         android:textStyle="bold"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="45dp"
         android:fontFamily="cursive"
         android:paddingVertical="7dp"
         android:paddingHorizontal="20dp"
@@ -50,97 +50,12 @@
         android:text="√" />
 
     <TextView
-        android:id="@+id/datePickerTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:layout_marginTop="20dp"
-        android:fontFamily="serif"
-        android:textStyle="italic"
-        android:paddingVertical="2dp"
-        android:paddingHorizontal="20dp"
-        android:text="Selecciona la fecha" />
-
-    <TextView
-        android:id="@+id/dayPickerTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/dayPicker"
-        app:layout_constraintEnd_toEndOf="@id/dayPicker"
-        app:layout_constraintTop_toBottomOf="@id/datePickerTitle"
-        android:textSize="14sp"
-        android:textColor="@color/grey"
-        android:layout_marginTop="6dp"
-        android:fontFamily="serif"
-        android:paddingVertical="2dp"
-        android:paddingHorizontal="20dp"
-        android:text="Dia" />
-    <NumberPicker
-        android:id="@+id/dayPicker"
-        app:layout_constraintTop_toBottomOf="@id/dayPickerTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/monthPicker"
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:datePickerMode="spinner" />
-
-    <TextView
-        android:id="@+id/monthPickerTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/monthPicker"
-        app:layout_constraintEnd_toEndOf="@id/monthPicker"
-        app:layout_constraintTop_toBottomOf="@id/datePickerTitle"
-        android:textSize="14sp"
-        android:textColor="@color/grey"
-        android:layout_marginTop="6dp"
-        android:fontFamily="serif"
-        android:paddingVertical="2dp"
-        android:paddingHorizontal="20dp"
-        android:text="Mes" />
-    <NumberPicker
-        android:id="@+id/monthPicker"
-        app:layout_constraintTop_toBottomOf="@id/monthPickerTitle"
-        app:layout_constraintStart_toEndOf="@id/dayPicker"
-        app:layout_constraintEnd_toStartOf="@id/yearPicker"
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:datePickerMode="spinner" />
-
-    <TextView
-        android:id="@+id/yearPickerTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/yearPicker"
-        app:layout_constraintEnd_toEndOf="@id/yearPicker"
-        app:layout_constraintTop_toBottomOf="@id/datePickerTitle"
-        android:textSize="14sp"
-        android:textColor="@color/grey"
-        android:layout_marginTop="6dp"
-        android:fontFamily="serif"
-        android:paddingVertical="2dp"
-        android:paddingHorizontal="20dp"
-        android:text="Año" />
-    <NumberPicker
-        android:id="@+id/yearPicker"
-        app:layout_constraintTop_toBottomOf="@id/yearPickerTitle"
-        app:layout_constraintStart_toEndOf="@id/monthPicker"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:datePickerMode="spinner" />
-
-    <TextView
         android:id="@+id/timePickerTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dayPicker"
+        app:layout_constraintTop_toBottomOf="@id/title"
         android:textSize="16sp"
         android:textColor="@color/black"
         android:fontFamily="serif"
@@ -185,7 +100,7 @@
         app:layout_constraintBottom_toBottomOf="@id/etiqueta_label"
         android:textSize="16sp"
         android:paddingStart="9dp"
-        android:hint="Titulo descriptivo..." />
+        android:hint="Titulo o texto..." />
 
     <TextView
         android:id="@+id/repeat_label"

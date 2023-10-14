@@ -5,21 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.views.alarm_views.recycler_views.TodayAlarmsFragment">
+    tools:context=".ui.views.alarm_views.AllAlarmsFragment">
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:textSize="30sp"
+        android:textSize="23sp"
+        android:background="@color/background_button"
+        android:gravity="center"
         android:textColor="@color/dark_blue"
         android:textStyle="bold"
-        android:layout_marginTop="10dp"
         android:fontFamily="cursive"
-        android:paddingVertical="7dp"
+        android:paddingVertical="9dp"
         android:paddingHorizontal="20dp"
         android:text="Agenda" />
 
@@ -35,7 +36,7 @@
         android:textStyle="bold"
         android:background="@drawable/rounded_background"
         android:fontFamily="serif"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:paddingVertical="5dp"
         android:paddingHorizontal="10dp"
         android:text="Hoy" />
@@ -57,10 +58,19 @@
     <TextView
         android:id="@+id/line"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/grey"
+        android:layout_height="2dp"
+        android:background="@color/background_button"
         android:layout_marginHorizontal="15dp"
         app:layout_constraintBottom_toTopOf="@id/recyclerView"
+        android:textColor="@color/black" />
+    <TextView
+        android:id="@+id/line2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/background_button"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/todayTitle"
         android:textColor="@color/black" />
     <TextView
         android:id="@+id/recyclerIsEmpty"

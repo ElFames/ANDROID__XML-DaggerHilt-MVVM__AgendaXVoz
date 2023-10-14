@@ -8,18 +8,19 @@
 
     <TextView
         android:id="@+id/settingsTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="Configuración"
-        android:textSize="28sp"
+        android:textSize="24sp"
         android:textStyle="bold"
+        android:background="@color/background_button"
         android:fontFamily="cursive"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
         android:paddingHorizontal="20dp"
-        android:paddingVertical="7dp"
+        android:paddingVertical="9dp"
         android:textColor="@color/dark_blue" />
 
     <TextView
@@ -92,18 +93,5 @@
         android:layout_marginEnd="20dp"
         android:thumbTint="@color/dark_blue"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
-
-    <TextView
-        android:id="@+id/aboutApp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Acerca de la Aplicación"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/dark_mode_label"
-        android:layout_marginTop="10dp"
-        android:paddingVertical="10dp"
-        android:paddingHorizontal="20dp"
-        android:textColor="@color/black" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

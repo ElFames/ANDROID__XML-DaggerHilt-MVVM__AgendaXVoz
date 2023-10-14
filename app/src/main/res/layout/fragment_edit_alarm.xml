@@ -21,7 +21,7 @@
         android:textColor="@color/dark_blue"
         android:textStyle="bold"
         android:fontFamily="cursive"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:paddingVertical="7dp"
         android:paddingHorizontal="20dp"
         android:text="Editar Tarea" />
@@ -59,7 +59,7 @@
         app:layout_constraintTop_toBottomOf="@id/title"
         android:textSize="16sp"
         android:textColor="@color/black"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:fontFamily="serif"
         android:textStyle="italic"
         android:paddingVertical="2dp"
@@ -75,7 +75,7 @@
         app:layout_constraintTop_toBottomOf="@id/datePickerTitle"
         android:textSize="14sp"
         android:textColor="@color/grey"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="7dp"
         android:fontFamily="serif"
         android:paddingVertical="2dp"
         android:paddingHorizontal="20dp"
@@ -98,7 +98,7 @@
         app:layout_constraintTop_toBottomOf="@id/datePickerTitle"
         android:textSize="14sp"
         android:textColor="@color/grey"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="7dp"
         android:fontFamily="serif"
         android:paddingVertical="2dp"
         android:paddingHorizontal="20dp"
@@ -121,7 +121,7 @@
         app:layout_constraintTop_toBottomOf="@id/datePickerTitle"
         android:textSize="14sp"
         android:textColor="@color/grey"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="7dp"
         android:fontFamily="serif"
         android:paddingVertical="2dp"
         android:paddingHorizontal="20dp"
@@ -145,7 +145,7 @@
         android:textSize="16sp"
         android:textColor="@color/black"
         android:fontFamily="serif"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="8dp"
         android:textStyle="italic"
         android:paddingVertical="2dp"
         android:paddingHorizontal="20dp"
@@ -177,7 +177,7 @@
     <EditText
         android:id="@+id/etiqueta_editText"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         app:layout_constraintStart_toEndOf="@id/etiqueta_label"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="15dp"
@@ -187,7 +187,7 @@
         android:textSize="16sp"
         android:textColor="@color/black"
         android:paddingStart="9dp"
-        android:hint="Titulo descriptivo..." />
+        android:hint="Titulo o texto..." />
 
     <TextView
         android:id="@+id/repeat_label"
@@ -203,10 +203,11 @@
         android:paddingVertical="2dp"
         android:paddingHorizontal="20dp"
         android:text="Repetir semanalmente" />
+
     <Switch
         android:id="@+id/repeat_switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/repeat_label"
         app:layout_constraintBottom_toBottomOf="@id/repeat_label"
@@ -230,8 +231,8 @@
         android:text="Repetir diariamente" />
     <Switch
         android:id="@+id/repeat_day_switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/repeat_day_label"
         app:layout_constraintBottom_toBottomOf="@id/repeat_day_label"
@@ -247,7 +248,7 @@
         app:layout_constraintTop_toBottomOf="@id/repeat_day_switch"
         android:textSize="16sp"
         android:textColor="@color/black"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="15dp"
         android:fontFamily="serif"
         android:textStyle="bold"
         android:paddingVertical="2dp"
@@ -276,30 +277,33 @@
         app:layout_constraintEnd_toEndOf="@id/recordButton"
         android:textColor="@color/stongrey"
         android:text="Grabar" />
-    <TextView
+
+    <ImageView
         android:id="@+id/playButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/recordButton"
         android:layout_marginEnd="25dp"
-        android:textColor="@color/black"
-        android:paddingVertical="0dp"
         android:visibility="gone"
-        android:paddingHorizontal="8dp"
-        android:textSize="28dp"
-        android:text="@string/play_button" />
-    <TextView
-        android:id="@+id/playButton_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/playButton"
-        app:layout_constraintStart_toStartOf="@id/playButton"
-        app:layout_constraintEnd_toEndOf="@id/playButton"
-        android:textColor="#535353"
-        android:text="Reproducir" />
+        android:scaleType="centerCrop"
+        android:contentDescription="playbutton" />
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        app:layout_constraintStart_toEndOf="@id/playButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/playButton"
+        app:layout_constraintBottom_toBottomOf="@id/playButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="16dp"
+        android:visibility="gone"
+        tools:progress="50"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:max="100"
+        android:progressDrawable="@drawable/progress_bar_custom" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
